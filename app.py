@@ -262,7 +262,7 @@ if prompt := st.chat_input(
         try:
           client = Groq(api_key=st.session_state.api_key)
           chat_completion = client.chat.completions.create(
-              model="llama-3.3-70b-versatile",  # โมเดลอัจฉริยะความเร็วสูง
+              model="llama-3.3-70b-versatile",
               messages=[
                   {
                       "role": "system",
