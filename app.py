@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.2 Smart Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V8.3 Auto-Update", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,11 +23,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.2</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.3</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: สมองกลอัจฉริยะ 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: อัปเดตความจำอโนมาัติ 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -144,7 +144,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.2 Smart Pro")
+  st.caption("🚀 BENTEN AI V8.3 Auto-Update")
 
 st.markdown(
     f"""
@@ -219,8 +219,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V8.2 Smart Pro</h1>
-        <p>สมองกลเวอร์ชันใหม่ ฉลาดขึ้น เป็นระบบและรู้ใจคุณมากขึ้น!</p>
+        <h1>⚡ BENTEN AI V8.3 Auto-Update</h1>
+        <p>ระบบบันทึกความจำอัจฉริยะ อัปเดตขึ้นหน้าจอทันที!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -237,23 +237,22 @@ for message in st.session_state.messages:
     st.markdown(message["content"], unsafe_allow_html=True)
 
 if prompt := st.chat_input(
-    "พิมพ์คุย บอกชื่อ/ของโปรด หรือถามเรื่องทั่วไปได้เลย..."
+    "พิมพ์บอกชื่อ (เช่น ฉันชื่อ...) หรือของโปรด (เช่น ชอบกิน...) ได้เลย..."
 ):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
 
-  if st.session_state.sound_effect:
-    st.toast("🔔 ประมวลผลข้อมูลสำเร็จ!", icon="⚡")
-
   with st.chat_message("assistant"):
-    with st.spinner("🧠 AI กำลังวิเคราะห์ข้อมูล..."):
+    with st.spinner("🧠 AI กำลังบันทึกความจำ..."):
       text = prompt.lower()
       now = datetime.datetime.now()
+      memory_updated = False
+      bot_reply = ""
 
-      # ระบบจดจำชื่อที่ฉลาดขึ้น (ดึงคำหลังคำว่า ชื่อ หรือ คือ)
+      # ตรวจจับชื่อ
       if (
-          "ฉันชื่อ" in text
+          ("ฉันชื่อ" in text)
           | ("ผมชื่อ" in text)
           | ("ชื่อ" in text)
           | ("เรียกผมว่า" in text)
@@ -268,9 +267,10 @@ if prompt := st.chat_input(
         if not st.session_state.user_name and len(words) > 0:
           st.session_state.user_name = words[-1]
         name_str = st.session_state.user_name
-        bot_reply = f"🧠 **ระบบบันทึกความจำอัจฉริยะ:**<br>ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมบันทึกชื่อนี้ไว้เรียบร้อยแล้วครับ! 😊"
+        bot_reply = f"🧠 **บันทึกสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมจำชื่อคุณไว้ที่แถบด้านซ้ายเรียบร้อยแล้วครับ! 😊"
+        memory_updated = True
 
-      # ระบบจดจำของโปรด/สิ่งที่ชอบ
+      # ตรวจจับของโปรด
       elif (
           ("ชอบกิน" in text)
           | ("ของโปรด" in text)
@@ -278,111 +278,25 @@ if prompt := st.chat_input(
           | ("โปรดปราน" in text)
       ):
         st.session_state.user_fav_food = prompt
-        bot_reply = f"🍽️ **บันทึกรายการโปรดสำเร็จ:**<br>ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* วันหลังนึกไม่ออกถามผมได้เลยครับ!"
+        bot_reply = f"🍽️ **บันทึกสำเร็จ!** ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงความจำด้านซ้ายเรียบร้อยครับ!"
+        memory_updated = True
 
-      # ระบบรายงานสภาพอากาศ
-      elif "อากาศ" in text or "ฝน" in text or "ร้อน" in text:
-        weathers = [
-            "☀️ **สภาพอากาศ:** แจ่มใส แดดแรง เหมาะกับการทำกิจกรรมกลางแจ้ง อย่าลืมทากันแดดนะครับ",
-            "🌧️ **สภาพอากาศ:** มีโอกาสฝนตกในบางพื้นที่ พกร่มติดตัวไว้ด้วยนะครับ",
-            "⛅ **สภาพอากาศ:** ท้องฟ้าโปร่ง ลมพัดเย็นสบาย เหมาะแก่การพักผ่อน",
-        ]
-        bot_reply = random.choice(weathers)
-
+      # หากไม่ใช่การบอกชื่อหรือของโปรด ให้ตอบตามปกติ
       else:
         if "สายกวน" in bot_mode:
-          if (
-              "หิว" in text
-              | "กิน" in text
-              | "อาหาร" in text
-              | "เมนู" in text
-              | "ข้าว" in text
-          ):
-            bot_reply = (
-                "😏 หิวหรอ? จัดไปเมนูสิ้นคิดแต่เด็ด: **กะเพราหมูกรอบไข่ดาว**"
-                " สั่งด่วน!"
-            )
-          else:
-            bot_reply = f"😏 ถามมาซะดิบดีว่า '{prompt}'... คิดว่าผมจะตอบได้หรืองับ 😜"
-
+          bot_reply = f"😏 ได้รับข้อความ '{prompt}' แล้ว อยากให้จำอะไรเพิ่มพิมพ์มาได้เลย!"
         elif "นักให้คำปรึกษา" in bot_mode:
-          if (
-              "หิว" in text
-              | "กิน" in text
-              | "อาหาร" in text
-              | "เมนู" in text
-              | "ข้าว" in text
-          ):
-            bot_reply = (
-                '🧘‍♂️ แนะนำมื้อนี้เป็น **"แกงจืดเต้าหู้หมูสับ"** ทานอะไรร้อนๆ'
-                " สบายท้องและดีต่อสุขภาพนะครับ ❤️"
-            )
-          else:
-            name_prefix = (
-                f"คุณ {st.session_state.user_name}"
-                if st.session_state.user_name
-                else "คุณ"
-            )
-            bot_reply = (
-                f"🧘‍♂️ ถึง{name_prefix} จากเรื่องที่คุณเล่ามา... ค่อยๆ"
-                f' คิดและจัดการทีละนิดนะครับ *"{prompt}"* ผมพร้อมรับฟังและซัพพอร์ตเสมอ'
-                " ❤️"
-            )
-
+          bot_reply = (
+              f'🧘‍♂️ รับทราบครับจากเรื่อง *"{prompt}"* ผมพร้อมซัพพอร์ตเสมอนะครับ ❤️'
+          )
         else:
-          # ผู้ช่วยอัจฉริยะ (ตอบรอบด้าน)
-          is_hungry = (
-              ("หิว" in text)
-              or ("กินอะไรดี" in text)
-              or ("เมนู" in text)
-              or ("อาหาร" in text)
-              or ("ข้าว" in text)
-              or ("มื้อเที่ยง" in text)
-              or ("มื้อเย็น" in text)
-          )
-          is_hello = (
-              ("สวัสดี" in text)
-              or ("หวัดดี" in text)
-              or ("hi" in text)
-              or ("hello" in text)
-              or ("ดีจ้า" in text)
-          )
-          is_time = ("เวลา" in text) or ("กี่โมง" in text) or ("วันที่" in text)
-
-          if is_hungry:
-            food_options = [
-                "🍲 **ชาบู / สุกี้:** เติมพลังความอร่อย น้ำซุปเข้มข้น",
-                "🍛 **ข้าวผัดกุ้ง / ข้าวคลุกกะปิ:** ทานง่าย อิ่มท้องนาน",
-                "🍜 **บะหมี่เกี๊ยวหมูแดง:** น้ำซุปร้อนๆ คล่องคอ",
-                "🥗 **สลัดโรล / อกไก่ย่าง:** เมนูเฮลตี้ สบายท้อง ไม่อ้วน",
-            ]
-            chosen = random.choice(food_options)
-            bot_reply = (
-                "💡 **คำแนะนำเมนูอาหารอัจฉริยะ:**<br><br>"
-                + chosen
-                + "<br><br>ต้องการพิกัดร้านหรือสูตรทำเองบอกได้เลยครับ! 🍳"
-            )
-          elif is_hello:
-            uname_str = (
-                f"คุณ {st.session_state.user_name}"
-                if st.session_state.user_name
-                else "คุณ"
-            )
-            bot_reply = f"🤖 สวัสดีครับ **{uname_str}** วันนี้มีเรื่องอะไรให้ผมช่วยวิเคราะห์หรือค้นหาข้อมูลแจ้งได้เลยครับ! ✨"
-          elif is_time:
-            bot_reply = (
-                "📅 **เวลาปัจจุบัน:** "
-                + now.strftime("%H:%M น. (วันที่ %d/%m/%Y)")
-                + "<br>เป็นเวลาที่ดีในการลุยงานหรือพักผ่อนเลยครับ!"
-            )
-          else:
-            bot_reply = (
-                "💡 **ผลการวิเคราะห์ข้อความ:**<br>"
-                f'ได้รับข้อมูลเรื่อง *"{prompt}"* เรียบร้อยครับ'
-                " ในฐานะผู้ช่วยอัจฉริยะ ผมพร้อมช่วยค้นหาข้อมูล สรุป หรือให้คำแนะนำเพิ่มเติมในด้านนี้"
-                " แจ้งความประสงค์มาได้เลยครับ! 🚀"
-            )
+          bot_reply = f'💡 ได้รับข้อมูล *"{prompt}"* เรียบร้อยครับ มีอะไรให้ช่วยเพิ่มเติมไหมครับ'
 
     st.markdown(bot_reply, unsafe_allow_html=True)
 
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+
+  # หากมีการอัปเดตความจำ (ชื่อ หรือ ของโปรด) ให้สั่งรีเฟรชหน้าจอ Sidebar ทันที
+  if memory_updated:
+    st.success("✨ ระบบบันทึกความจำและอัปเดตหน้าจอเรียบร้อย!")
+    st.rerun()
