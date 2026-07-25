@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V7.5 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V7.6 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,12 +23,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.5</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.6</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: อัปเกรดความจำและอากาศ'
-      ' 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: สมบูรณ์ไร้ที่ติ 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -143,7 +142,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V7.5 Pro Edition")
+  st.caption("🚀 BENTEN AI V7.6 Pro Edition")
 
 st.markdown(
     f"""
@@ -218,8 +217,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V7.5 Pro</h1>
-        <p>เพิ่มระบบจำข้อมูลผู้ใช้ และพยากรณ์อากาศอัจฉริยะ!</p>
+        <h1>⚡ BENTEN AI V7.6 Pro</h1>
+        <p>ระบบความจำผู้ใช้และพยากรณ์อากาศพร้อมใช้งาน 100%!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -235,9 +234,7 @@ for message in st.session_state.messages:
   with st.chat_message(message["role"]):
     st.markdown(message["content"], unsafe_allow_html=True)
 
-if prompt := st.chat_input(
-    "พิมพ์คุย หรือบอกชื่อ/ของโปรด หรือถามสภาพอากาศได้เลย..."
-):
+if prompt := st.chat_input("พิมพ์คุย หรือบอกชื่อ/ของโปรด หรือถามสภาพอากาศได้เลย..."):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
@@ -246,11 +243,10 @@ if prompt := st.chat_input(
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.5..."):
+    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.6..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
-      # 1. ระบบจำชื่อผู้ใช้
       if "ฉันชื่อ" in text or "ผมชื่อ" in text or "ชื่อ" in text:
         words = prompt.split()
         for i, w in enumerate(words):
@@ -262,12 +258,10 @@ if prompt := st.chat_input(
         )
         bot_reply = f"📝 จำใส่สมองเรียบร้อย! สวัสดีครับคุณ **{name_str}** ผมจะจดจำชื่อนี้ไว้นะครับ! 😊"
 
-      # 2. ระบบจำของโปรด
       elif "ชอบกิน" in text or "ของโปรด" in text:
         st.session_state.user_fav_food = prompt
         bot_reply = "🍽️ เยี่ยมเลย! ผมบันทึกของโปรดของคุณเรียบร้อยแล้ว วันหลังหิวจะได้เลือกถูกใจ!"
 
-      # 3. ระบบพยากรณ์อากาศ
       elif "อากาศ" in text or "ฝน" in text or "ร้อน" in text:
         weathers = [
             "☀️ อากาศแจ่มใส แดดค่อนข้างแรง เหมาะกับการออกไปข้างนอก แต่อย่าลืมพกครีมกันแดดนะ!",
@@ -304,4 +298,8 @@ if prompt := st.chat_input(
                   "เมนู",
                   "อาหาร",
                   "ข้าว",
-                 
+                  "มื้อเที่ยง",
+                  "มื้อเย็น",
+              ]
+          ):
+            food_suggestions
