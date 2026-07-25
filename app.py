@@ -2,9 +2,9 @@ import datetime
 import random
 import streamlit as st
 
-# ตั้งค่าหน้าเว็บเวอร์ชัน 5.6
+# ตั้งค่าหน้าเว็บ BENTEN AI V5.6
 st.set_page_config(
-    page_title="BENTEN AI - Dual Mode", page_icon="🤖", layout="centered"
+    page_title="BENTEN AI V5.6", page_icon="🤖", layout="centered"
 )
 
 # แถบเมนูด้านข้าง (Sidebar) ปรับแต่งตัวหนังสือให้มองเห็นชัดเจน
@@ -78,7 +78,7 @@ with st.sidebar:
     st.session_state.messages = []
     st.rerun()
 
-  st.caption("🚀 BENTEN AI v5.6 - Dual Mode")
+  st.caption("🚀 BENTEN AI V5.6")
 
 # CSS ตกแต่งภาพรวม
 st.markdown(
@@ -129,12 +129,12 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# หัวข้อหลักตรงกลางหน้าจอ
+# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V5.6
 st.markdown(
     """
     <div class="main-header">
-        <h1>🤖 BENTEN AI - Dual Mode</h1>
-        <p>เลือกโหมดคุยได้ดั่งใจ จะอบอุ่นเป็นเพื่อนหรือจะกวนตินเลือกได้เลย!</p>
+        <h1>🤖 BENTEN AI V5.6</h1>
+        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว พร้อมช่วยเหลือและคุยเป็นเพื่อนคุณแล้ว</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -160,7 +160,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       now = datetime.datetime.now()
 
       # ----------------------------------------------------------------
-      # 1. โหมดสายกวนบาทา (เฉพาะตอนเลือกโหมดนี้เท่านั้น)
+      # 1. โหมดสายกวนบาทา
       # ----------------------------------------------------------------
       if "สายกวน" in bot_mode:
         gwan_replies = [
@@ -181,7 +181,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         bot_reply = random.choice(gwan_replies)
 
       # ----------------------------------------------------------------
-      # 2. โหมดนักให้คำปรึกษา (สายอบอุ่น ใจดี)
+      # 2. โหมดนักให้คำปรึกษา
       # ----------------------------------------------------------------
       elif "นักให้คำปรึกษา" in bot_mode:
         bot_reply = (
@@ -191,7 +191,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         )
 
       # ----------------------------------------------------------------
-      # 3. โหมดผู้ช่วยทั่วไป (คุยแบบเพื่อนหรือครอบครัว อบอุ่น เป็นกันเอง)
+      # 3. โหมดผู้ช่วยทั่วไป (เพื่อนหรือครอบครัว)
       # ----------------------------------------------------------------
       else:
         if any(
