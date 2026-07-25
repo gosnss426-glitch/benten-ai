@@ -4,10 +4,9 @@ import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.0 Smart Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.1 Smart Pro", page_icon="⚡", layout="centered"
 )
 
-# --- ตั้งค่าความจำเริ่มต้น ---
 if "bg_color" not in st.session_state:
   st.session_state.bg_color = "อนิเมะยามค่ำคืน (Night Anime)"
 if "messages" not in st.session_state:
@@ -17,10 +16,9 @@ if "user_name" not in st.session_state:
 if "user_fav_food" not in st.session_state:
   st.session_state.user_fav_food = ""
 
-# --- แถบการตั้งค่าด้านซ้าย (Sidebar) ---
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.0</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.1</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -28,7 +26,6 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
 
-  # ช่องใส่ API Key สำหรับขับเคลื่อนความฉลาด
   st.markdown(
       '<p style="color: #ffffff !important; font-size: 0.9rem;">🔑 Google Gemini API Key</p>',
       unsafe_allow_html=True,
@@ -48,7 +45,6 @@ with st.sidebar:
 
   st.markdown("---")
 
-  # --- นาฬิกาดิจิทัลดีไซน์สวยๆ ---
   current_time_str = datetime.datetime.now().strftime("%H:%M:%S")
   current_date_str = datetime.datetime.now().strftime("%d / %m / %Y")
   st.markdown(
@@ -131,9 +127,8 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.0 Smart Pro")
+  st.caption("🚀 BENTEN AI V9.1 Smart Pro")
 
-# --- กำหนดสไตล์สีพื้นหลัง ---
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
   chat_bg = "rgba(241, 245, 249, 0.95) !important;"
@@ -217,12 +212,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# แสดงประวัติแชท
 for message in st.session_state.messages:
   with st.chat_message(message["role"]):
     st.markdown(message["content"], unsafe_allow_html=True)
 
-# รับข้อความจากผู้ใช้
 if prompt := st.chat_input(
     "พิมพ์ถามการบ้าน, ให้ช่วยหาข้อมูล, สั่งแปลภาษา หรือคุยเล่นได้เลย..."
 ):
@@ -236,7 +229,6 @@ if prompt := st.chat_input(
       memory_updated = False
       bot_reply = ""
 
-      # 1. ระบบจดจำชื่อ
       if (
           ("ฉันชื่อ" in text)
           | ("ผมชื่อ" in text)
@@ -256,10 +248,9 @@ if prompt := st.chat_input(
         bot_reply = f"🎉 **บันทึกความจำสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมจำชื่อของคุณไว้ที่แถบด้านซ้ายเรียบร้อยแล้วนะ! 😊"
         memory_updated = True
 
-      # 2. ระบบจดจำสิ่งที่ชอบ
       elif (
           ("ชอบ" in text)
-          | ("ของโปรด" in text)
+          | ("ofโปรด" in text)
           | ("โปรดปราน" in text)
           | ("รัก" in text)
       ):
@@ -267,13 +258,12 @@ if prompt := st.chat_input(
         bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลด้านซ้ายเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
-      # 3. หากมี API Key จะใช้สมองกล AI จริงในการตอบคำถาม ทำการบ้าน และหาข้อมูล
       elif st.session_state.api_key:
         try:
           genai.configure(api_key=st.session_state.api_key)
-          model = genai.GenerativeModel("gemini-1.5-flash")
+          # ปรับรุ่นโมเดลให้รองรับมาตรฐานล่าสุด
+          model = genai.GenerativeModel("gemini-pro")
 
-          # กำหนดคาแรคเตอร์ให้เป็น BENTEN AI ผู้ช่วยที่ฉลาด เป็นกันเอง
           system_prompt = (
               "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
               " ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล และแปลภาษาได้อย่างยอดเยี่ยม"
@@ -287,11 +277,10 @@ if prompt := st.chat_input(
           bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e} (โปรดตรวจสอบ API Key ของคุณอีกครั้ง)"
 
       else:
-        # กรณีที่ยังไม่ใส่ API Key จะแสดงระบบสำรองสุดสนุก
         if "โหมดสนุกสนาน" in bot_mode:
-          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: หากต้องการให้ผมช่วยทำการบ้าน วิเคราะห์งาน หรือหาข้อมูลแบบฉลาดสุดๆ สามารถใส่ Google Gemini API Key ที่แถบตั้งค่าด้านซ้ายได้เลยครับ!)*"
+          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: นำ Google Gemini API Key มาใส่ไว้ที่ช่องด้านซ้ายมือ เพื่อปลดล็อกพลังสมองกลเต็มรูปแบบ!)*"
         else:
-          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดพลังสมองกลเต็มรูปแบบ:** เพียงนำ **Google Gemini API Key** มาใส่ไว้ที่ช่องด้านซ้ายมือ แล้วเรามาเริ่มลุยงานกันได้เลยครับ!"
+          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดพลังสมองกล:** เพียงนำ **Google Gemini API Key** มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
