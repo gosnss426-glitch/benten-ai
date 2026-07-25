@@ -1,11 +1,13 @@
 import datetime
 import random
+import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.8 Ultimate", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.0 Smart Pro", page_icon="⚡", layout="centered"
 )
 
+# --- ตั้งค่าความจำเริ่มต้น ---
 if "bg_color" not in st.session_state:
   st.session_state.bg_color = "อนิเมะยามค่ำคืน (Night Anime)"
 if "messages" not in st.session_state:
@@ -15,15 +17,36 @@ if "user_name" not in st.session_state:
 if "user_fav_food" not in st.session_state:
   st.session_state.user_fav_food = ""
 
+# --- แถบการตั้งค่าด้านซ้าย (Sidebar) ---
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.8</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.0</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมใช้งาน 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: สมองกลอัจฉริยะ 🟢</p>',
       unsafe_allow_html=True,
   )
+
+  # ช่องใส่ API Key สำหรับขับเคลื่อนความฉลาด
+  st.markdown(
+      '<p style="color: #ffffff !important; font-size: 0.9rem;">🔑 Google Gemini API Key</p>',
+      unsafe_allow_html=True,
+  )
+  api_key_input = st.text_input(
+      "API Key",
+      type="password",
+      placeholder="วาง API Key ที่นี่...",
+      label_visibility="collapsed",
+  )
+
+  if api_key_input:
+    st.session_state.api_key = api_key_input
+    st.success("เชื่อมต่อสมองกลสำเร็จ!")
+  elif "api_key" not in st.session_state:
+    st.session_state.api_key = ""
+
+  st.markdown("---")
 
   # --- นาฬิกาดิจิทัลดีไซน์สวยๆ ---
   current_time_str = datetime.datetime.now().strftime("%H:%M:%S")
@@ -50,9 +73,9 @@ with st.sidebar:
   bot_mode = st.selectbox(
       "🎯 เลือกสไตล์การพูดคุย",
       [
-          "🌍 โหมดนักแปล & เพื่อนคู่คิด (รองรับแปลภาษา + สาระ)",
-          "🎈 โหมดสนุกสนาน (มุกตลก + เกมทายใจ + คลายเครียด)",
-          "💡 ผู้ช่วยรอบรู้ (เกร็ดความรู้รอบตัว + ไอเดียเจ๋งๆ)",
+          "🧠 โหมดอัจฉริยะ (ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล)",
+          "🎈 โหมดสนุกสนาน (คุยเล่น มุกตลก คลายเครียด)",
+          "🌍 โหมดผู้เชี่ยวชาญภาษาและการแปล",
       ],
   )
 
@@ -108,31 +131,22 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.8 Ultimate")
+  st.caption("🚀 BENTEN AI V9.0 Smart Pro")
 
-# กำหนดสไตล์พื้นหลังตามที่เลือก
+# --- กำหนดสไตล์สีพื้นหลัง ---
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
-  bg_style = """
-        background-color: #ffffff;
-        color: #1e293b;
-    """
+  bg_style = "background-color: #ffffff; color: #1e293b;"
   chat_bg = "rgba(241, 245, 249, 0.95) !important;"
   text_main_color = "#1e293b !important;"
 elif st.session_state.bg_color == "สีดำสนิท (Classic Dark)":
-  bg_style = """
-        background-color: #0b0f19;
-        color: #f8fafc;
-    """
+  bg_style = "background-color: #0b0f19; color: #f8fafc;"
   chat_bg = "rgba(30, 41, 59, 0.9) !important;"
   text_main_color = "#ffffff !important;"
 elif st.session_state.bg_color == "สีฟ้าพาสเทล (Classic Blue)":
-  bg_style = """
-        background-color: #e0f2fe;
-        color: #0f172a;
-    """
+  bg_style = "background-color: #e0f2fe; color: #0f172a;"
   chat_bg = "rgba(255, 255, 255, 0.95) !important;"
   text_main_color = "#0f172a !important;"
-else:  # อนิเมะยามค่ำคืน
+else:
   bg_style = """
         background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                           url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1920&auto=format&fit=crop");
@@ -147,12 +161,8 @@ else:  # อนิเมะยามค่ำคืน
 st.markdown(
     f"""
     <style>
-    .stApp {{
-        {bg_style}
-    }}
-    .stChatMessage p, .stChatMessage div, .stChatMessage span {{
-        color: {text_main_color}
-    }}
+    .stApp {{ {bg_style} }}
+    .stChatMessage p, .stChatMessage div, .stChatMessage span {{ color: {text_main_color} }}
     [data-testid="stChatMessage"] {{
         background-color: {chat_bg}
         border-radius: 16px !important;
@@ -164,7 +174,6 @@ st.markdown(
         background-color: rgba(30, 41, 59, 0.9) !important;
         -webkit-text-fill-color: #ffffff !important;
     }}
-    /* แอนิเมชันตัวการ์ตูนวิ่งไปวิ่งมา */
     @keyframes runAnimation {{
         0% {{ transform: translateX(-50px) scaleX(1); }}
         49% {{ transform: translateX(250px) scaleX(1); }}
@@ -186,24 +195,10 @@ st.markdown(
         margin-bottom: 25px;
         box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
     }}
-    .main-header h1 {{
-        margin: 0;
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: white !important;
-    }}
-    .main-header p {{
-        margin: 8px 0 0 0;
-        font-size: 1.05rem;
-        color: white !important;
-    }}
-    [data-testid="stSidebar"] {{
-        background-color: #1e293b;
-        border-right: 1px solid #334155;
-    }}
-    [data-testid="stSidebar"] *, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div, [data-testid="stSidebar"] p {{
-        color: #ffffff !important;
-    }}
+    .main-header h1 {{ margin: 0; font-size: 2.2rem; font-weight: 800; color: white !important; }}
+    .main-header p {{ margin: 8px 0 0 0; font-size: 1.05rem; color: white !important; }}
+    [data-testid="stSidebar"] {{ background-color: #1e293b; border-right: 1px solid #334155; }}
+    [data-testid="stSidebar"] *, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div, [data-testid="stSidebar"] p {{ color: #ffffff !important; }}
     </style>
 """,
     unsafe_allow_html=True,
@@ -216,30 +211,32 @@ st.markdown(
             <div class="running-icon">🦖</div>
         </div>
         <h1>⚡ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
-        <p>พิมพ์คุยสนุก ความรู้ มุกตลก แปลภาษา หรือบอกชื่อ/สิ่งที่ชอบได้เลย! ✨</p>
+        <p>ผู้ช่วยอัจฉริยะ ช่วยทำการบ้าน หาข้อมูล และคุยสนุกได้เหมือนคนจริง! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
 )
 
+# แสดงประวัติแชท
 for message in st.session_state.messages:
   with st.chat_message(message["role"]):
     st.markdown(message["content"], unsafe_allow_html=True)
 
+# รับข้อความจากผู้ใช้
 if prompt := st.chat_input(
-    "พิมพ์คุย บอกชื่อ (ฉันชื่อ...), สิ่งที่ชอบ หรือสั่งแปลภาษา..."
+    "พิมพ์ถามการบ้าน, ให้ช่วยหาข้อมูล, สั่งแปลภาษา หรือคุยเล่นได้เลย..."
 ):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("⚡ BENTEN กำลังประมวลผลคำตอบ..."):
+    with st.spinner("🤖 BENTEN กำลังใช้สมองกลวิเคราะห์คำตอบอย่างละเอียด..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
 
-      # ระบบจดจำชื่อ
+      # 1. ระบบจดจำชื่อ
       if (
           ("ฉันชื่อ" in text)
           | ("ผมชื่อ" in text)
@@ -259,7 +256,7 @@ if prompt := st.chat_input(
         bot_reply = f"🎉 **บันทึกความจำสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมจำชื่อของคุณไว้ที่แถบด้านซ้ายเรียบร้อยแล้วนะ! 😊"
         memory_updated = True
 
-      # ระบบจดจำสิ่งที่ชอบ
+      # 2. ระบบจดจำสิ่งที่ชอบ
       elif (
           ("ชอบ" in text)
           | ("ของโปรด" in text)
@@ -270,33 +267,31 @@ if prompt := st.chat_input(
         bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลด้านซ้ายเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
-      # ระบบแปลภาษา
-      elif "แปล" in text:
-        bot_reply = f'🌐 **ผลการแปลภาษา:**<br>จากคำสั่งของคุณ: *"{prompt}"*<br><br>• **ภาษาอังกฤษ (English):** Hello! How can I help you today?<br>• **ภาษาจีน (Chinese):** 你好！今天有什么我可以帮你的吗？<br>• **ภาษาญี่ปุ่น (Japanese):** こんにちは！何かお手伝いできますか？'
+      # 3. หากมี API Key จะใช้สมองกล AI จริงในการตอบคำถาม ทำการบ้าน และหาข้อมูล
+      elif st.session_state.api_key:
+        try:
+          genai.configure(api_key=st.session_state.api_key)
+          model = genai.GenerativeModel("gemini-1.5-flash")
+
+          # กำหนดคาแรคเตอร์ให้เป็น BENTEN AI ผู้ช่วยที่ฉลาด เป็นกันเอง
+          system_prompt = (
+              "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
+              " ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล และแปลภาษาได้อย่างยอดเยี่ยม"
+              " พูดจาสุภาพ เป็นมิตร และให้คำตอบที่เป็นประโยชน์"
+          )
+          full_prompt = f"{system_prompt}\n\nผู้ใช้ถามว่า: {prompt}"
+
+          response = model.generate_content(full_prompt)
+          bot_reply = response.text
+        except Exception as e:
+          bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e} (โปรดตรวจสอบ API Key ของคุณอีกครั้ง)"
 
       else:
+        # กรณีที่ยังไม่ใส่ API Key จะแสดงระบบสำรองสุดสนุก
         if "โหมดสนุกสนาน" in bot_mode:
-          fun_pack = [
-              "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!",
-              "🧩 **ทายปัญหาสุดกวน:**<br>อะไรเอ่ย ยิ่งดึงยิ่งสั้นลง? ...เฉลย: **บุหรี่** หรือไม่ก็ **เวลาใกล้สิ้นเดือน** จ้า 😆",
-              "🪄 **คำคมพลังบวก:**<br>ถึงวันนี้จะเหนื่อยหรือเจอเรื่องยากแค่ไหน แต่จำไว้ว่าเธอเก่งมากๆ แล้วนะ ยิ้มเข้าไว้พลังบวกมาเต็ม! 💪✨",
-          ]
-          bot_reply = random.choice(fun_pack)
-
-        elif "ผู้ช่วยรอบรู้" in bot_mode:
-          knowledge_pack = [
-              "🌍 **เกร็ดความรู้รอบตัว:**<br>รู้ไหมว่า ดวงจันทร์ไม่ได้มีแสงสว่างในตัวเอง แต่ที่สว่างตอนกลางคืนเพราะสะท้อนแสงมาจากดวงอาทิตย์นะ! 🌕",
-              "🧠 **ทริคพัฒนาตัวเอง:**<br>การดื่มน้ำเปล่าให้เพียงพอในแต่ละวัน ช่วยให้สมองปลอดโปร่งและมีความจำดีขึ้นถึง 20% เลยทีเดียว ลองดื่มน้ำดูก่อนนะ!",
-          ]
-          bot_reply = random.choice(knowledge_pack)
-
+          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: หากต้องการให้ผมช่วยทำการบ้าน วิเคราะห์งาน หรือหาข้อมูลแบบฉลาดสุดๆ สามารถใส่ Google Gemini API Key ที่แถบตั้งค่าด้านซ้ายได้เลยครับ!)*"
         else:
-          general_pack = [
-              "🤝 **สวัสดีครับ!** ผม **BENTEN AI** พร้อมช่วยคุณทั้งคุยเล่น หาความรู้ หรือช่วย **แปลภาษา** ต่างๆ พิมพ์สั่งมาได้เลยนะ!",
-              "☕ **พักผ่อนสักนิด:** ทำงานหรือเรียนมาเหนื่อยๆ อย่าลืมหาเครื่องดื่มอุ่นๆ ดื่มเติมพลัง มีผมคอยซัพพอร์ตอยู่ตรงนี้เสมอ!",
-              "🌍 อยากให้ช่วยแปลประโยคไหน หรือคุยเรื่องอะไรดีครับวันนี้ พิมพ์บอกได้เลย!",
-          ]
-          bot_reply = random.choice(general_pack)
+          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดพลังสมองกลเต็มรูปแบบ:** เพียงนำ **Google Gemini API Key** มาใส่ไว้ที่ช่องด้านซ้ายมือ แล้วเรามาเริ่มลุยงานกันได้เลยครับ!"
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
