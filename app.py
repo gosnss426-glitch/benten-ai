@@ -29,17 +29,8 @@ with st.sidebar:
 
   st.markdown("---")
   st.markdown(
-      '<p style="color: #ffffff !important;">🎨 ปรับแต่งสีหน้าต่าง & ตัวหนังสือ</p>',
+      '<p style="color: #ffffff !important;">🎨 ปรับแต่งสีตัวหนังสือ</p>',
       unsafe_allow_html=True,
-  )
-
-  bg_theme = st.selectbox(
-      "เลือกสีพื้นหลังหน้าต่าง:",
-      [
-          "ดาร์กมืดเข้ม (Dark Navy)",
-          "สว่างสะอาด (Clean White)",
-          "เทาโมเดิร์น (Modern Gray)",
-      ],
   )
 
   text_color = st.selectbox(
@@ -52,17 +43,6 @@ with st.sidebar:
       ],
   )
 
-  # แปลงค่าพื้นหลังหน้าต่างเป็น CSS Hex
-  if "สว่างสะอาด" in bg_theme:
-    bg_hex = "#ffffff"
-    main_text_default = "#1e293b"
-  elif "เทาโมเดิร์น" in bg_theme:
-    bg_hex = "#f1f5f9"
-    main_text_default = "#0f172a"
-  else:
-    bg_hex = "#0f172a"
-    main_text_default = "#f8fafc"
-
   # แปลงค่าสีตัวหนังสือเป็น CSS Hex
   if "สีดำเข้ม" in text_color:
     selected_hex = "#000000"
@@ -71,7 +51,7 @@ with st.sidebar:
   elif "เหลืองทอง" in text_color:
     selected_hex = "#fbbf24"
   else:
-    selected_hex = main_text_default
+    selected_hex = "#ffffff"
 
   st.markdown("---")
   if st.button("🗑️ ล้างประวัติการสนทนา", use_container_width=True):
@@ -80,27 +60,41 @@ with st.sidebar:
 
   st.caption("🚀 BENTEN AI V5.6")
 
-# CSS ตกแต่งภาพรวม
+# CSS ใส่พื้นหลังการ์ตูน พร้อมตกแต่งกรอบแชทให้มีสไตล์การ์ตูน/อนิเมะพรีเมียม
 st.markdown(
     f"""
     <style>
     .stApp {{
-        background-color: {bg_hex};
-        color: {main_text_default};
+        background-image: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)), 
+                          url("https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1920&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f8fafc;
     }}
     
     .stChatMessage p, .stChatMessage div, .stChatMessage span {{
         color: {selected_hex} !important;
     }}
     
+    /* ตกแต่งกล่องข้อความแชทให้เก๋และมีสไตล์ขึ้น */
+    [data-testid="stChatMessage"] {{
+        background-color: rgba(30, 41, 59, 0.75) !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(8px);
+    }}
+    
     .main-header {{
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%);
         padding: 25px;
         border-radius: 16px;
         color: white;
         text-align: center;
         margin-bottom: 25px;
         box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        backdrop-filter: blur(5px);
     }}
     
     .main-header h1 {{
@@ -134,7 +128,7 @@ st.markdown(
     """
     <div class="main-header">
         <h1>🤖 BENTEN AI V5.6</h1>
-        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว พร้อมช่วยเหลือและคุยเป็นเพื่อนคุณแล้ว</p>
+        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว พร้อมสติกเกอร์และดีไซน์สุดเก๋!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -160,38 +154,51 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       now = datetime.datetime.now()
 
       # ----------------------------------------------------------------
-      # 1. โหมดสายกวนบาทา
+      # 1. โหมดสายกวนบาทา (เพิ่มสติกเกอร์เก๋ๆ กวนๆ)
       # ----------------------------------------------------------------
       if "สายกวน" in bot_mode:
         gwan_replies = [
-            f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง 😜",
             (
-                f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณ"
-                "เอาซะเปล่าๆ แฮ่!"
+                f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง"
+                " 😜\n\n<img"
+                ' src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif"'
+                ' width="120">'
+            ),
+            (
+                f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป"
+                " เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!\n\n<img"
+                ' src="https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif"'
+                ' width="120">'
             ),
             (
                 f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ"
-                f" สำหรับเรื่อง '{prompt}' เนี่ย"
+                f" สำหรับเรื่อง '{prompt}' เนี่ย\n\n<img"
+                ' src="https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif"'
+                ' width="120">'
             ),
             (
-                f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก 3 ชาติครึ่งครับถึงจะตอบได้"
-                " ฮ่าๆๆ"
+                f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก"
+                " 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ\n\n<img"
+                ' src="https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif"'
+                ' width="120">'
             ),
         ]
         bot_reply = random.choice(gwan_replies)
 
       # ----------------------------------------------------------------
-      # 2. โหมดนักให้คำปรึกษา
+      # 2. โหมดนักให้คำปรึกษา (เพิ่มสติกเกอร์อบอุ่น ใจฟู)
       # ----------------------------------------------------------------
       elif "นักให้คำปรึกษา" in bot_mode:
         bot_reply = (
             f"🧘‍♂️ จากเรื่อง *\"{prompt}\"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ"
             " อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ"
-            " ❤️"
+            " ❤️\n\n<img"
+            ' src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"'
+            ' width="120">'
         )
 
       # ----------------------------------------------------------------
-      # 3. โหมดผู้ช่วยทั่วไป (เพื่อนหรือครอบครัว)
+      # 3. โหมดผู้ช่วยทั่วไป (เพิ่มสติกเกอร์เพื่อนซี้/น่ารักๆ)
       # ----------------------------------------------------------------
       else:
         if any(
@@ -199,31 +206,41 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         ):
           bot_reply = (
               "🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม"
-              " หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️"
+              " หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️\n\n<img"
+              ' src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif"'
+              ' width="120">'
           )
         elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
-              f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ"
+              f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ\n\n<img"
+              ' src="https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif"'
+              ' width="120">'
           )
         elif any(word in text for word in ["กินอะไรดี", "หิว", "เมนู"]):
           bot_reply = (
               "🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ"
-              " เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ"
+              " เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ\n\n<img"
+              ' src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif"'
+              ' width="120">'
           )
         elif any(
             word in text for word in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]
         ):
           bot_reply = (
               "🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ"
-              " ไม่ต้องฝืนตัวเองเกินไป มีผมคอยอยู่ข้างๆ เป็นกำลังใจให้อยู่ตรงนี้นะครับ!"
+              " ไม่ต้องฝืนตัวเองเกินไป มีผมคอยอยู่ข้างๆ เป็นกำลังใจให้อยู่ตรงนี้นะครับ!\n\n<img"
+              ' src="https://media.giphy.com/media/3oEdv4hwWTzBhWvaU0/giphy.gif"'
+              ' width="120">'
           )
         else:
           bot_reply = (
               f"😊 ผมได้รับเรื่อง *\"{prompt}\"* ที่คุณพิมพ์มาแล้วครับ"
               " น่าสนใจมากๆ เลย มีอะไรอยากเล่าให้ผมฟังเพิ่มอีกไหมครับ"
-              " ผมพร้อมอยู่คุยเป็นเพื่อนเสมอนะ!"
+              " ผมพร้อมอยู่คุยเป็นเพื่อนเสมอนะ!\n\n<img"
+              ' src="https://media.giphy.com/media/10Vx9XbXG6w7mU/giphy.gif"'
+              ' width="120">'
           )
 
-    st.markdown(bot_reply)
+    st.markdown(bot_reply, unsafe_allow_html=True)
 
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
