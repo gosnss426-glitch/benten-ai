@@ -4,7 +4,7 @@ import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.2 Smart Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.3 Smart Pro", page_icon="⚡", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,7 +18,7 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.2</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.3</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -127,7 +127,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.2 Smart Pro")
+  st.caption("🚀 BENTEN AI V9.3 Smart Pro")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -261,8 +261,8 @@ if prompt := st.chat_input(
       elif st.session_state.api_key:
         try:
           genai.configure(api_key=st.session_state.api_key)
-          # อัปเกรดเรียกใช้รุ่นโมเดลมาตรฐานล่าสุดที่รองรับ API ฟรี
-          model = genai.GenerativeModel("gemini-1.5-flash")
+          # ใช้รุ่น gemini-pro ที่รองรับกับทุกเวอร์ชันของไลบรารีพื้นฐาน
+          model = genai.GenerativeModel("gemini-pro")
 
           system_prompt = (
               "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
