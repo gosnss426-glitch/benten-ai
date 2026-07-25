@@ -46,11 +46,17 @@ with st.sidebar:
       '<p style="color: #ffffff !important;">🧠 ข้อมูลความจำ AI</p>',
       unsafe_allow_html=True,
   )
-  st.info(
-      f"👤 ชื่อคุณ: {st.session_state.user_name if st.session_state.user_name else 'ยังไม่ระบุ'}\n🍽️'
-      f' ของโปรด: {st.session_state.user_fav_food if st.session_state.user_fav_food else'
-      " 'ยังไม่ระบุ'}"
+
+  uname = (
+      st.session_state.user_name if st.session_state.user_name else "ยังไม่ระบุ"
   )
+  ufav = (
+      st.session_state.user_fav_food
+      if st.session_state.user_fav_food
+      else "ยังไม่ระบุ"
+  )
+  st.info(f"👤 ชื่อคุณ: {uname}\n🍽️ ของโปรด: {ufav}")
+
   if st.button("🔄 รีเซ็ตความจำผู้ใช้", use_container_width=True):
     st.session_state.user_name = ""
     st.session_state.user_fav_food = ""
@@ -258,11 +264,11 @@ if prompt := st.chat_input(
 
       # 2. ระบบจำของโปรด
       elif "ชอบกิน" in text or "ของโปรด" in text:
-        bot_reply = f"🍽️ เยี่ยมเลย! ผมบันทึกของโปรดของคุณเรียบร้อยแล้ว วันหลังหิวจะได้เลือกถูกใจ!"
         st.session_state.user_fav_food = prompt
+        bot_reply = "🍽️ เยี่ยมเลย! ผมบันทึกของโปรดของคุณเรียบร้อยแล้ว วันหลังหิวจะได้เลือกถูกใจ!"
 
       # 3. ระบบพยากรณ์อากาศ
-      elif "อากาศ" in text or "ฝน" in text or "10" in text or "ร้อน" in text:
+      elif "อากาศ" in text or "ฝน" in text or "ร้อน" in text:
         weathers = [
             "☀️ อากาศแจ่มใส แดดค่อนข้างแรง เหมาะกับการออกไปข้างนอก แต่อย่าลืมพกครีมกันแดดนะ!",
             "🌧️ มีโอกาสฝนตกฟ้าคะนองในพื้นที่ ออกเดินทางอย่าลืมพกพกร่มหรือเสื้อกันฝนด้วยนะคร้าบ!",
@@ -298,5 +304,4 @@ if prompt := st.chat_input(
                   "เมนู",
                   "อาหาร",
                   "ข้าว",
-                  "มื้อเที่ยง",
-       
+                 
