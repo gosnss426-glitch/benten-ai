@@ -1,20 +1,30 @@
-import datetime
+iimport datetime
 import random
 import streamlit as st
 
-# ตั้งค่าหน้าเว็บ BENTEN AI V5.6
+# ตั้งค่าหน้าเว็บ BENTEN AI V6.0 (Ultimate Pro Edition)
 st.set_page_config(
-    page_title="BENTEN AI V5.6", page_icon="🤖", layout="centered"
+    page_title="BENTEN AI V6.0 Pro", page_icon="⚡", layout="centered"
 )
 
-# แถบเมนูด้านข้าง (Sidebar) พร้อมเมนูเลือกพื้นหลัง
+# จัดการสถานะการตั้งค่า (State Management) ให้ใช้งานได้จริงทุกปุ่ม
+if "theme" not in st.session_state:
+  st.session_state.theme = "อนิเมะยามค่ำคืน (Night Anime)"
+if "text_color" not in st.session_state:
+  st.session_state.text_color = "สีขาวคลาสสิก (White)"
+if "sound_effect" not in st.session_state:
+  st.session_state.sound_effect = True
+if "auto_clear" not in st.session_state:
+  st.session_state.auto_clear = False
+
+# แถบเมนูด้านข้าง (Sidebar) สำหรับตั้งค่าที่ใช้งานได้จริง
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ควบคุมระบบ</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.0</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: ออนไลน์ 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: อัปเกรดเต็มระบบ 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -33,7 +43,8 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
 
-  bg_choice = st.selectbox(
+  # อัปเดตค่าลง Session State ทันทีเมื่อผู้ใช้เปลี่ยน
+  st.session_state.theme = st.selectbox(
       "เลือกธีมพื้นหลังการ์ตูน:",
       [
           "อนิเมะยามค่ำคืน (Night Anime)",
@@ -41,6 +52,12 @@ with st.sidebar:
           "เมืองนีออนไซเบอร์ (Cyberpunk City)",
           "ปาสเทลหวานๆ (Sweet Pastel)",
       ],
+      index=[
+          "อนิเมะยามค่ำคืน (Night Anime)",
+          "ท้องฟ้าและหมู่ดาว (Starry Sky)",
+          "เมืองนีออนไซเบอร์ (Cyberpunk City)",
+          "ปาสเทลหวานๆ (Sweet Pastel)",
+      ].index(st.session_state.theme),
   )
 
   st.markdown("---")
@@ -49,7 +66,7 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
 
-  text_color = st.selectbox(
+  st.session_state.text_color = st.selectbox(
       "เลือกสีข้อความแชท:",
       [
           "สีขาวคลาสสิก (White)",
@@ -57,24 +74,44 @@ with st.sidebar:
           "สีฟ้าสว่างนีออน (Neon Blue)",
           "สีเหลืองทอง (Gold)",
       ],
+      index=[
+          "สีขาวคลาสสิก (White)",
+          "สีดำเข้มคมชัด (Solid Black)",
+          "สีฟ้าสว่างนีออน (Neon Blue)",
+          "สีเหลืองทอง (Gold)",
+      ].index(st.session_state.text_color),
   )
 
-  # กำหนดลิงก์ภาพพื้นหลังตามที่เลือก
-  if "ท้องฟ้าและหมู่ดาว" in bg_choice:
+  st.markdown("---")
+  st.markdown(
+      '<p style="color: #ffffff !important;">🛠️ ลูกเล่นเพิ่มเติม</p>',
+      unsafe_allow_html=True,
+  )
+  st.session_state.sound_effect = st.checkbox(
+      "✨ เปิดเอฟเฟกต์เสียงจำลองตอนส่งข้อความ",
+      value=st.session_state.sound_effect,
+  )
+  st.session_state.auto_clear = st.checkbox(
+      "🧹 แจ้งเตือนอวยาก็ล้างแชทอัตโนมัติ",
+      value=st.session_state.auto_clear,
+  )
+
+  # กำหนดลิงก์ภาพพื้นหลังตามค่าที่เลือกจริง
+  if "ท้องฟ้าและหมู่ดาว" in st.session_state.theme:
     bg_url = "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1920&auto=format&fit=crop"
-  elif "เมืองนีออนไซเบอร์" in bg_choice:
+  elif "เมืองนีออนไซเบอร์" in st.session_state.theme:
     bg_url = "https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1920&auto=format&fit=crop"
-  elif "ปาสเทลหวานๆ" in bg_choice:
+  elif "ปาสเทลหวานๆ" in st.session_state.theme:
     bg_url = "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop"
   else:
     bg_url = "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1920&auto=format&fit=crop"
 
   # แปลงค่าสีตัวหนังสือเป็น CSS Hex
-  if "สีดำเข้ม" in text_color:
+  if "สีดำเข้ม" in st.session_state.text_color:
     selected_hex = "#000000"
-  elif "ฟ้าสว่าง" in text_color:
+  elif "ฟ้าสว่าง" in st.session_state.text_color:
     selected_hex = "#38bdf8"
-  elif "เหลืองทอง" in text_color:
+  elif "เหลืองทอง" in st.session_state.text_color:
     selected_hex = "#fbbf24"
   else:
     selected_hex = "#ffffff"
@@ -82,16 +119,17 @@ with st.sidebar:
   st.markdown("---")
   if st.button("🗑️ ล้างประวัติการสนทนา", use_container_width=True):
     st.session_state.messages = []
+    st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V5.6")
+  st.caption("🚀 BENTEN AI V6.0 Pro Edition")
 
-# CSS ใส่พื้นหลังที่ผู้ใช้เลือก พร้อมสติกเกอร์เก๋ๆ
+# CSS นำค่าตั้งค่ามาใช้งานจริงแบบไดนามิก
 st.markdown(
     f"""
     <style>
     .stApp {{
-        background-image: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)), 
+        background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                           url("{bg_url}");
         background-size: cover;
         background-position: center;
@@ -104,11 +142,11 @@ st.markdown(
     }}
     
     [data-testid="stChatMessage"] {{
-        background-color: rgba(30, 41, 59, 0.75) !important;
+        background-color: rgba(30, 41, 59, 0.8) !important;
         border-radius: 16px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
     }}
     
     .main-header {{
@@ -148,12 +186,12 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V5.6
+# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.0 Pro
 st.markdown(
     """
     <div class="main-header">
-        <h1>🤖 BENTEN AI V5.6</h1>
-        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว เลือกเปลี่ยนธีมพื้นหลังการ์ตูนได้ตามใจคุณ!</p>
+        <h1>⚡ BENTEN AI V6.0 Pro</h1>
+        <p>ระบบอัปเกรดใหม่ ตั้งค่าใช้งานได้จริง พร้อมลูกเล่นเสียงเอฟเฟกต์และสติกเกอร์สุดล้ำ!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -162,6 +200,13 @@ st.markdown(
 # จัดการประวัติการแชท
 if "messages" not in st.session_state:
   st.session_state.messages = []
+
+# แสดงข้อความแจ้งเตือนถ้าเปิดฟีเจอร์ Auto Clear
+if st.session_state.auto_clear and len(st.session_state.messages) > 10:
+  st.warning(
+      "⚠️ แชทเริ่มเยอะแล้ว ระบบแนะนำให้กดปุ่ม 'ล้างประวัติการสนทนา' ด้านซ้าย"
+      " เพื่อความลื่นไหล!"
+  )
 
 for message in st.session_state.messages:
   with st.chat_message(message["role"]):
@@ -173,8 +218,12 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
   with st.chat_message("user"):
     st.markdown(prompt)
 
+  # เล่นเอฟเฟกต์เสียงจำลองผ่าน Streamlit ถ้าตั้งค่าไว้
+  if st.session_state.sound_effect:
+    st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
+
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลคำตอบ..."):
+    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.0..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -187,25 +236,25 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
                 f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง"
                 " 😜\n\n<img"
                 ' src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif"'
-                ' width="120">'
+                ' width="130">'
             ),
             (
                 f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป"
                 " เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!\n\n<img"
                 ' src="https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif"'
-                ' width="120">'
+                ' width="130">'
             ),
             (
                 f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ"
                 f" สำหรับเรื่อง '{prompt}' เนี่ย\n\n<img"
                 ' src="https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif"'
-                ' width="120">'
+                ' width="130">'
             ),
             (
                 f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก"
                 " 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ\n\n<img"
                 ' src="https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif"'
-                ' width="120">'
+                ' width="130">'
             ),
         ]
         bot_reply = random.choice(gwan_replies)
@@ -219,7 +268,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
             " อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ"
             " ❤️\n\n<img"
             ' src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"'
-            ' width="120">'
+            ' width="130">'
         )
 
       # ----------------------------------------------------------------
@@ -233,39 +282,10 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
               "🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม"
               " หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️\n\n<img"
               ' src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif"'
-              ' width="120">'
+              ' width="130">'
           )
         elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
               f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ\n\n<img"
               ' src="https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif"'
-              ' width="120">'
-          )
-        elif any(word in text for word in ["กินอะไรดี", "หิว", "เมนู"]):
-          bot_reply = (
-              "🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ"
-              " เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ\n\n<img"
-              ' src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif"'
-              ' width="120">'
-          )
-        elif any(
-            word in text for word in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]
-        ):
-          bot_reply = (
-              "🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ"
-              " ไม่ต้องฝืนตัวเองเกินไป มีผมคอยอยู่ข้างๆ เป็นกำลังใจให้อยู่ตรงนี้นะครับ!\n\n<img"
-              ' src="https://media.giphy.com/media/3oEdv4hwWTzBhWvaU0/giphy.gif"'
-              ' width="120">'
-          )
-        else:
-          bot_reply = (
-              f"😊 ผมได้รับเรื่อง *\"{prompt}\"* ที่คุณพิมพ์มาแล้วครับ"
-              " น่าสนใจมากๆ เลย มีอะไรอยากเล่าให้ผมฟังเพิ่มอีกไหมครับ"
-              " ผมพร้อมอยู่คุยเป็นเพื่อนเสมอนะ!\n\n<img"
-              ' src="https://media.giphy.com/media/10Vx9XbXG6w7mU/giphy.gif"'
-              ' width="120">'
-          )
-
-    st.markdown(bot_reply, unsafe_allow_html=True)
-
-  st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+              ' width
