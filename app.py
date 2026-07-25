@@ -6,7 +6,7 @@ st.write(
     "เชื่อมต่อสมองกล AI ของจริงแล้ว! ถามอะไรก็ได้ที่คุณอยากรู้เลยครับ"
 )
 
-GEMINI_API_KEY = "AQ.Ab8RN6LsRgHNBMFR3rur-Ptp2XNCX1hxGibSFWx9NU6hMr6pTQ"
+GEMINI_API_KEY = "AQ.Ab8RN6LojAoCi2A1Tz9Ogd_xs8Cx-bEYDrb0X3Gt6Vmpahf7UQ"
 
 if GEMINI_API_KEY == "วางรหัส API Key ของคุณที่นี่":
   st.warning(
