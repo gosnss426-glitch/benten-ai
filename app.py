@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V6.8 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V7.0 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -19,7 +19,7 @@ if "messages" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.8</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.0</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -116,7 +116,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V6.8 Pro Edition")
+  st.caption("🚀 BENTEN AI V7.0 Pro Edition")
 
 st.markdown(
     f"""
@@ -191,7 +191,7 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V6.8 Pro</h1>
+        <h1>⚡ BENTEN AI V7.0 Pro</h1>
         <p>ระบบอัจฉริยะ พร้อมแนะนำเมนูอาหารอร่อยๆ และพูดคุยได้ทุกสไตล์!</p>
     </div>
 """,
@@ -217,14 +217,13 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังเฟ้นหาเมนูเด็ดเวอร์ชัน V6.8..."):
+    with st.spinner("กำลังเฟ้นหาเมนูเด็ดเวอร์ชัน V7.0..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
-      # คาแรคเตอร์: สายกวนบาทา
       if "สายกวน" in bot_mode:
         if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
-          bot_reply = f"😏 หิวแล้วหรอจ๊ะพ่อคุณ/แม่คุณ ถามหาของกินเก่งนัก ทำไมไม่กินลมชมวิวแทนล่ะ แฮ่! อะเอาไปเมนูสิ้นคิด: **กะเพราไข่ดาว** สั่งโลด!<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>"
+          bot_reply = """😏 หิวแล้วหรอจ๊ะพ่อคุณ ถามหาของกินเก่งนัก ทำไมไม่กินลมชมวิวแทนล่ะ แฮ่! อะเอาไปเมนูสิ้นคิด: **กะเพราไข่ดาว** สั่งโลด!<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>"""
         else:
           gwan_replies = [
               f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง 😜<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>",
@@ -233,24 +232,43 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
           ]
           bot_reply = random.choice(gwan_replies)
 
-      # คาแรคเตอร์: นักให้คำปรึกษา
       elif "นักให้คำปรึกษา" in bot_mode:
         if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
-          bot_reply = f'🧘‍♂️ การเลือกทานอาหารที่ดีต่อสุขภาพและถูกปาก จะช่วยเยียวยาจิตใจและร่างกายได้เป็นอย่างดีเลยนะครับ สำหรับวันนี้ผมขอแนะนำเมนู **"แกงจืดเต้าหู้หมูสับ"** หรือ **"ปลาลวกจิ้ม"** ทานอุ่นๆ สบายท้องแน่นอนครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
+          bot_reply = """🧘‍♂️ การเลือกทานอาหารที่ดีต่อสุขภาพ จะช่วยเยียวยาจิตใจและร่างกายได้เป็นอย่างดีเลยนะครับ สำหรับวันนี้ผมขอแนะนำเมนู **"แกงจืดเต้าหู้หมูสับ"** ทานอุ่นๆ สบายท้องแน่นอนครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">"""
         else:
-          bot_reply = f'🧘‍♂️ จากเรื่อง *"{prompt}"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
+          bot_reply = f"""🧘‍♂️ จากเรื่อง *"{prompt}"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">"""
 
-      # คาแรคเตอร์: ผู้ช่วยทั่วไป (แนะนำอาหารเด็ดๆ เพิ่มเติมตรงนี้)
       else:
-        if any(w in text for w in ["หิว", "กินอะไรดี", "เมนู", "อาหาร", "ข้าว", "มื้อเที่ยง", "มื้อเย็น", "มื้อเช้า"]):
+        if any(
+            w in text
+            for w in [
+                "หิว",
+                "กินอะไรดี",
+                "เมนู",
+                "อาหาร",
+                "ข้าว",
+                "มื้อเที่ยง",
+                "มื้อเย็น",
+            ]
+        ):
           food_suggestions = [
-              "🍲 **ชาบู / หมูกระทะ:** เยียวยาได้ทุกสิ่ง! นั่งกินเพลินๆ กับคนรู้ใจ ฟินสุดๆ ไปเลย",
-              "🍛 **ข้าวผัดกุ้ง / ข้าวคลุกกะปิ:** เมนูจานเดียวทำง่าย หอมอร่อย ครบเครื่อง!",
-              "🍜 **ก๋วยเตี๋ยวต้มยำน้ำข้น:** แซ่บถึงใจ ซดน้ำร้อนๆ คล่องคอดีแท้",
-              "🥗 **สลัดอกไก่ / อะโวคาโด:** สายสุขภาพต้องจัด เบาท้อง ไม่อ้วน!",
+              (
+                  "🍲 **ชาบู / หมูกระทะ:** เยียวยาได้ทุกสิ่ง!"
+                  " นั่งกินเพลินๆ ฟินสุดๆ ไปเลย"
+              ),
+              (
+                  "🍛 **ข้าวผัดกุ้ง / ข้าวคลุกกะปิ:** เมนูจานเดียวทำง่าย"
+                  " หอมอร่อย ครบเครื่อง!"
+              ),
+              (
+                  "🍜 **ก๋วยเตี๋ยวต้มยำน้ำข้น:** แซ่บถึงใจ ซดน้ำร้อนๆ"
+                  " คล่องคอดีแท้"
+              ),
+              (
+                  "🥗 **สลัดอกไก่ / อะโวคาโด:** สายสุขภาพต้องจัด เบาท้อง"
+                  " ไม่อ้วน!"
+              ),
               "🍗 **ส้มตำ ไก่ย่าง ข้าวเหนียว:** อาหารประจำชาติ แซ่บนัวถึงใจ!",
           ]
           chosen_food = random.choice(food_suggestions)
-          bot_reply = f"😋 หิวแล้วใช่ไหมครับ! วันนี้ผมขอแนะนำเมนูนี้ให้เลย:\n\n{chosen_food}\n\nอยากให้ผมช่วยหาพิกัดสูตรทำอาหารหรือเมนูอื่นเพิ่มบอกได้เลยนะคร้าบ! 🍳✨<br><br><img src='https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif' width='130'>"
-        elif any(w in text for w in ["สวัสดี", "หวัดดี", "hi", "hello", "ดีจ้า"]):
-          bot_reply = '🤗 สวัสดีครับคนดี! วันนี้หิวไหม หรือมีเรื่องอะไรเล่าให้ฟังไหม หรืออยากให้ผมช่วยแนะนำเมนูอาหารอ
+          bot_reply = f"""😋 หิวแล้วใช่ไหมครับ! วันนี้ผมขอแนะนำเมนูนี้ให้เลย:<br><br>{chosen_food}<br><br>อยากให้ผมช่วยหาพิกัดสูตรทำอาหารหรือเมนูอื่นเพิ่มบอกได้เลยนะคร้าบ! 🍳✨<br><br><img src='https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif'
