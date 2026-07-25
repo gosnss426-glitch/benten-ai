@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="BENTEN AI V5.6", page_icon="🤖", layout="centered"
 )
 
-# แถบเมนูด้านข้าง (Sidebar) ปรับแต่งตัวหนังสือให้มองเห็นชัดเจน
+# แถบเมนูด้านข้าง (Sidebar) พร้อมเมนูเลือกพื้นหลัง
 with st.sidebar:
   st.markdown(
       '<h2 style="color: #ffffff !important;">⚙️ ควบคุมระบบ</h2>',
@@ -29,6 +29,22 @@ with st.sidebar:
 
   st.markdown("---")
   st.markdown(
+      '<p style="color: #ffffff !important;">🖼️ เลือกภาพพื้นหลัง</p>',
+      unsafe_allow_html=True,
+  )
+
+  bg_choice = st.selectbox(
+      "เลือกธีมพื้นหลังการ์ตูน:",
+      [
+          "อนิเมะยามค่ำคืน (Night Anime)",
+          "ท้องฟ้าและหมู่ดาว (Starry Sky)",
+          "เมืองนีออนไซเบอร์ (Cyberpunk City)",
+          "ปาสเทลหวานๆ (Sweet Pastel)",
+      ],
+  )
+
+  st.markdown("---")
+  st.markdown(
       '<p style="color: #ffffff !important;">🎨 ปรับแต่งสีตัวหนังสือ</p>',
       unsafe_allow_html=True,
   )
@@ -42,6 +58,16 @@ with st.sidebar:
           "สีเหลืองทอง (Gold)",
       ],
   )
+
+  # กำหนดลิงก์ภาพพื้นหลังตามที่เลือก
+  if "ท้องฟ้าและหมู่ดาว" in bg_choice:
+    bg_url = "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1920&auto=format&fit=crop"
+  elif "เมืองนีออนไซเบอร์" in bg_choice:
+    bg_url = "https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1920&auto=format&fit=crop"
+  elif "ปาสเทลหวานๆ" in bg_choice:
+    bg_url = "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop"
+  else:
+    bg_url = "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1920&auto=format&fit=crop"
 
   # แปลงค่าสีตัวหนังสือเป็น CSS Hex
   if "สีดำเข้ม" in text_color:
@@ -60,13 +86,13 @@ with st.sidebar:
 
   st.caption("🚀 BENTEN AI V5.6")
 
-# CSS ใส่พื้นหลังการ์ตูน พร้อมตกแต่งกรอบแชทให้มีสไตล์การ์ตูน/อนิเมะพรีเมียม
+# CSS ใส่พื้นหลังที่ผู้ใช้เลือก พร้อมสติกเกอร์เก๋ๆ
 st.markdown(
     f"""
     <style>
     .stApp {{
         background-image: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)), 
-                          url("https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1920&auto=format&fit=crop");
+                          url("{bg_url}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -77,7 +103,6 @@ st.markdown(
         color: {selected_hex} !important;
     }}
     
-    /* ตกแต่งกล่องข้อความแชทให้เก๋และมีสไตล์ขึ้น */
     [data-testid="stChatMessage"] {{
         background-color: rgba(30, 41, 59, 0.75) !important;
         border-radius: 16px !important;
@@ -128,7 +153,7 @@ st.markdown(
     """
     <div class="main-header">
         <h1>🤖 BENTEN AI V5.6</h1>
-        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว พร้อมสติกเกอร์และดีไซน์สุดเก๋!</p>
+        <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว เลือกเปลี่ยนธีมพื้นหลังการ์ตูนได้ตามใจคุณ!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -140,7 +165,7 @@ if "messages" not in st.session_state:
 
 for message in st.session_state.messages:
   with st.chat_message(message["role"]):
-    st.markdown(message["content"])
+    st.markdown(message["content"], unsafe_allow_html=True)
 
 # ช่องพิมพ์ข้อความ
 if prompt := st.chat_input("พิมพ์ข้อความคุยกับ AI ที่นี่..."):
@@ -154,7 +179,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       now = datetime.datetime.now()
 
       # ----------------------------------------------------------------
-      # 1. โหมดสายกวนบาทา (เพิ่มสติกเกอร์เก๋ๆ กวนๆ)
+      # 1. โหมดสายกวนบาทา
       # ----------------------------------------------------------------
       if "สายกวน" in bot_mode:
         gwan_replies = [
@@ -186,7 +211,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         bot_reply = random.choice(gwan_replies)
 
       # ----------------------------------------------------------------
-      # 2. โหมดนักให้คำปรึกษา (เพิ่มสติกเกอร์อบอุ่น ใจฟู)
+      # 2. โหมดนักให้คำปรึกษา
       # ----------------------------------------------------------------
       elif "นักให้คำปรึกษา" in bot_mode:
         bot_reply = (
@@ -198,7 +223,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         )
 
       # ----------------------------------------------------------------
-      # 3. โหมดผู้ช่วยทั่วไป (เพิ่มสติกเกอร์เพื่อนซี้/น่ารักๆ)
+      # 3. โหมดผู้ช่วยทั่วไป (เพื่อนหรือครอบครัว)
       # ----------------------------------------------------------------
       else:
         if any(
