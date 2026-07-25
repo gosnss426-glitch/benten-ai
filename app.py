@@ -6,15 +6,15 @@ st.write(
     "เชื่อมต่อสมองกล AI ของจริงแล้ว! ถามอะไรก็ได้ที่คุณอยากรู้เลยครับ"
 )
 
-GEMINI_API_KEY = "AQ.Ab8RN6LojAoCi2A1Tz9Ogd_xs8Cx-bEYDrb0X3Gt6Vmpahf7UQ"
+GEMINI_API_KEY = "ใส่รหัส API Key (AIza...) ของคุณที่นี่"
 
-if GEMINI_API_KEY == "วางรหัส API Key ของคุณที่นี่":
+if GEMINI_API_KEY.startswith("ใส่รหัส"):
   st.warning(
       "⚠️ กรุณานำ Google Gemini API Key มาใส่ในโค้ดบรรทัดที่ 8 ก่อนใช้งานครับ"
   )
 else:
   genai.configure(api_key=GEMINI_API_KEY)
-  model = genai.GenerativeModel("gemini-1.5-flash")
+  model = genai.GenerativeModel("gemini-2.5-flash")
 
   if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -41,4 +41,5 @@ else:
     st.session_state.messages.append(
         {"role": "assistant", "content": bot_reply}
     )
+
 
