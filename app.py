@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import streamlit as st
 
-st.title("🤖 BENTEN AI - Gemini Edition")
+st.title("🤖 BENTEN AI - ที่ปรึกษาส่วนตัว")
 st.write(
     "เชื่อมต่อสมองกล AI ของจริงแล้ว! ถามอะไรก็ได้ที่คุณอยากรู้เลยครับ"
 )
