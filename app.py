@@ -4,7 +4,7 @@ import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.4 Smart Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.5 Smart Pro", page_icon="⚡", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,7 +18,7 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.4</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.5</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -127,7 +127,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.4 Smart Pro")
+  st.caption("🚀 BENTEN AI V9.5 Smart Pro")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -261,25 +261,8 @@ if prompt := st.chat_input(
       elif st.session_state.api_key:
         try:
           genai.configure(api_key=st.session_state.api_key)
-
-          # ระบบตรวจหารุ่นโมเดลที่รองรับอัตโนมัติจาก Key ของคุณ
-          available_models = [
-              m.name
-              for m in genai.list_models()
-              if "generateContent" in m.supported_generation_methods
-          ]
-          target_model_name = "gemini-1.5-flash"
-          for am in available_models:
-            if "1.5-flash" in am:
-              target_model_name = am
-              break
-          if (
-              target_model_name not in available_models
-              and len(available_models) > 0
-          ):
-            target_model_name = available_models[0]
-
-          model = genai.GenerativeModel(target_model_name)
+          # อัปเดตเปลี่ยนมาใช้รุ่นมาตรฐานปัจจุบัน gemini-2.0-flash
+          model = genai.GenerativeModel("gemini-2.0-flash")
 
           system_prompt = (
               "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
