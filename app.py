@@ -2,9 +2,9 @@ import datetime
 import random
 import streamlit as st
 
-# ตั้งค่าหน้าเว็บ BENTEN AI V6.0 (Ultimate Pro Edition)
+# ตั้งค่าหน้าเว็บ BENTEN AI V6.1 Pro (Fixed Sidebar Text)
 st.set_page_config(
-    page_title="BENTEN AI V6.0 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V6.1 Pro", page_icon="⚡", layout="centered"
 )
 
 # จัดการสถานะการตั้งค่า (State Management) ให้ใช้งานได้จริงทุกปุ่ม
@@ -20,7 +20,7 @@ if "auto_clear" not in st.session_state:
 # แถบเมนูด้านข้าง (Sidebar) สำหรับตั้งค่าที่ใช้งานได้จริง
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.0</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.1</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -119,9 +119,9 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V6.0 Pro Edition")
+  st.caption("🚀 BENTEN AI V6.1 Pro Edition")
 
-# CSS นำค่าตั้งค่ามาใช้งานจริงแบบไดนามิก
+# CSS บังคับสีข้อความใน Sidebar ทั้งหมดให้เป็นสีขาวชัดเจน และปรับแต่งธีม
 st.markdown(
     f"""
     <style>
@@ -171,11 +171,24 @@ st.markdown(
         color: white !important;
     }}
 
+    /* บังคับ Sidebar และทุกป้ายข้อความ ตัวเลือก Selectbox ช่องติ๊กถูก ให้เป็นสีขาวชัดเจน */
     [data-testid="stSidebar"] {{
         background-color: #1e293b;
         border-right: 1px solid #334155;
     }}
-    [data-testid="stSidebar"] *, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span, [data-testid="stSidebar"] div {{
+    [data-testid="stSidebar"] *, 
+    [data-testid="stSidebar"] label, 
+    [data-testid="stSidebar"] span, 
+    [data-testid="stSidebar"] div,
+    [data-testid="stSidebar"] p,
+    .stSelectbox label, 
+    .stCheckbox label {{
+        color: #ffffff !important;
+    }}
+    
+    /* ปรับแต่งตัวอักษรที่แสดงผลข้างใน Selectbox ให้มองเห็นชัดเจน */
+    div[data-baseweb="select"] > div {{
+        background-color: #334155 !important;
         color: #ffffff !important;
     }}
     </style>
@@ -183,12 +196,12 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.0 Pro
+# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.1 Pro
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V6.0 Pro</h1>
-        <p>ระบบอัปเกรดใหม่ ตั้งค่าใช้งานได้จริง พร้อมลูกเล่นเสียงเอฟเฟกต์และสติกเกอร์สุดล้ำ!</p>
+        <h1>⚡ BENTEN AI V6.1 Pro</h1>
+        <p>ระบบตั้งค่าอัจฉริยะ ปรับแต่งหน้าตาและมองเห็นเมนูฟังก์ชันได้อย่างชัดเจน!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -220,7 +233,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.0..."):
+    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.1..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -281,12 +294,4 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
               ' src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif"'
               ' width="130">'
           )
-        elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
-          bot_reply = (
-              f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')}"
-              " ครับ พักผ่อนดูแลตัวเองด้วยนะครับ<br><br><img"
-              ' src="https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif"'
-              ' width="130">'
-          )
-        elif any(word in text for word in ["กินอะไรดี", "หิว", "เมนู"]):
-          bot_r
+        elif any(w
