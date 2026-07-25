@@ -3,19 +3,11 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.7 Translate Edition",
-    page_icon="⚡",
-    layout="centered",
+    page_title="BENTEN AI V8.8 Ultimate", page_icon="⚡", layout="centered"
 )
 
-if "theme" not in st.session_state:
-  st.session_state.theme = "อนิเมะยามค่ำคืน (Night Anime)"
-if "text_color" not in st.session_state:
-  st.session_state.text_color = "สีขาวคลาสสิก (White)"
-if "sound_effect" not in st.session_state:
-  st.session_state.sound_effect = True
-if "auto_clear" not in st.session_state:
-  st.session_state.auto_clear = False
+if "bg_color" not in st.session_state:
+  st.session_state.bg_color = "อนิเมะยามค่ำคืน (Night Anime)"
 if "messages" not in st.session_state:
   st.session_state.messages = []
 if "user_name" not in st.session_state:
@@ -25,15 +17,15 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.7</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.8</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมแปลภาษา 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมใช้งาน 🟢</p>',
       unsafe_allow_html=True,
   )
 
-  # --- นาฬิกาดิจิทัลดีไซน์ไซเบอร์สวยๆ ---
+  # --- นาฬิกาดิจิทัลดีไซน์สวยๆ ---
   current_time_str = datetime.datetime.now().strftime("%H:%M:%S")
   current_date_str = datetime.datetime.now().strftime("%d / %m / %Y")
   st.markdown(
@@ -91,23 +83,23 @@ with st.sidebar:
 
   st.markdown("---")
   st.markdown(
-      '<p style="color: #ffffff !important;">🖼️ เลือกบรรยากาศธีม</p>',
+      '<p style="color: #ffffff !important;">🎨 เลือกสีพื้นหลังคลาสสิก</p>',
       unsafe_allow_html=True,
   )
 
-  theme_list = [
+  bg_options = [
       "อนิเมะยามค่ำคืน (Night Anime)",
-      "ท้องฟ้าและหมู่ดาว (Starry Sky)",
-      "เมืองนีออนไซเบอร์ (Cyberpunk City)",
-      "ปาสเทลหวานๆ (Sweet Pastel)",
+      "สีขาวคลาสสิก (Classic White)",
+      "สีดำสนิท (Classic Dark)",
+      "สีฟ้าพาสเทล (Classic Blue)",
   ]
-  current_theme_index = (
-      theme_list.index(st.session_state.theme)
-      if st.session_state.theme in theme_list
+  current_bg_index = (
+      bg_options.index(st.session_state.bg_color)
+      if st.session_state.bg_color in bg_options
       else 0
   )
-  st.session_state.theme = st.selectbox(
-      "เลือกธีมพื้นหลัง:", theme_list, index=current_theme_index
+  st.session_state.bg_color = st.selectbox(
+      "เปลี่ยนธีมพื้นหลัง:", bg_options, index=current_bg_index
   )
 
   st.markdown("---")
@@ -116,36 +108,74 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.7 Translate Edition")
+  st.caption("🚀 BENTEN AI V8.8 Ultimate")
 
-st.markdown(
-    f"""
-    <style>
-    .stApp {{
+# กำหนดสไตล์พื้นหลังตามที่เลือก
+if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
+  bg_style = """
+        background-color: #ffffff;
+        color: #1e293b;
+    """
+  chat_bg = "rgba(241, 245, 249, 0.95) !important;"
+  text_main_color = "#1e293b !important;"
+elif st.session_state.bg_color == "สีดำสนิท (Classic Dark)":
+  bg_style = """
+        background-color: #0b0f19;
+        color: #f8fafc;
+    """
+  chat_bg = "rgba(30, 41, 59, 0.9) !important;"
+  text_main_color = "#ffffff !important;"
+elif st.session_state.bg_color == "สีฟ้าพาสเทล (Classic Blue)":
+  bg_style = """
+        background-color: #e0f2fe;
+        color: #0f172a;
+    """
+  chat_bg = "rgba(255, 255, 255, 0.95) !important;"
+  text_main_color = "#0f172a !important;"
+else:  # อนิเมะยามค่ำคืน
+  bg_style = """
         background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                           url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1920&auto=format&fit=crop");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         color: #f8fafc;
+    """
+  chat_bg = "rgba(30, 41, 59, 0.85) !important;"
+  text_main_color = "#ffffff !important;"
+
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        {bg_style}
     }}
     .stChatMessage p, .stChatMessage div, .stChatMessage span {{
-        color: #ffffff !important;
-    }}
-    [data-testid="stChatMessage"]:nth-child(odd) p {{
-        color: #38bdf8 !important;
+        color: {text_main_color}
     }}
     [data-testid="stChatMessage"] {{
-        background-color: rgba(30, 41, 59, 0.85) !important;
+        background-color: {chat_bg}
         border-radius: 16px !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(10px);
     }}
     [data-testid="stChatInput"] textarea {{
-        color: #ffffff !important;
         background-color: rgba(30, 41, 59, 0.9) !important;
         -webkit-text-fill-color: #ffffff !important;
+    }}
+    /* แอนิเมชันตัวการ์ตูนวิ่งไปวิ่งมา */
+    @keyframes runAnimation {{
+        0% {{ transform: translateX(-50px) scaleX(1); }}
+        49% {{ transform: translateX(250px) scaleX(1); }}
+        50% {{ transform: translateX(250px) scaleX(-1); }}
+        99% {{ transform: translateX(-50px) scaleX(-1); }}
+        100% {{ transform: translateX(-50px) scaleX(1); }}
+    }}
+    .running-icon {{
+        display: inline-block;
+        font-size: 2.2rem;
+        animation: runAnimation 6s infinite linear;
     }}
     .main-header {{
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
@@ -182,8 +212,11 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI เพื่อนแท้</h1>
-        <p>พิมพ์คุยสนุก ความรู้ มุกตลก หรือสั่งแปลภาษาได้เลย (เช่น แปลคำว่า... เป็นอังกฤษ) ✨</p>
+        <div style="overflow: hidden; width: 100%; height: 50px; position: relative; margin-bottom: 5px;">
+            <div class="running-icon">🦖</div>
+        </div>
+        <h1>⚡ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
+        <p>พิมพ์คุยสนุก ความรู้ มุกตลก แปลภาษา หรือบอกชื่อ/สิ่งที่ชอบได้เลย! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -194,14 +227,14 @@ for message in st.session_state.messages:
     st.markdown(message["content"], unsafe_allow_html=True)
 
 if prompt := st.chat_input(
-    "พิมพ์คุย บอกชื่อ, สิ่งที่ชอบ หรือสั่งแปลภาษา (เช่น แปลคำว่า... เป็นอังกฤษ)..."
+    "พิมพ์คุย บอกชื่อ (ฉันชื่อ...), สิ่งที่ชอบ หรือสั่งแปลภาษา..."
 ):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("🌍 BENTEN กำลังแปลภาษาและประมวลผล..."):
+    with st.spinner("⚡ BENTEN กำลังประมวลผลคำตอบ..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
@@ -237,9 +270,9 @@ if prompt := st.chat_input(
         bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลด้านซ้ายเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
-      # ระบบแปลภาษาเบื้องต้นจำลองคำสั่งยอดฮิต
+      # ระบบแปลภาษา
       elif "แปล" in text:
-        bot_reply = f'🌐 **ผลการแปลภาษา:**<br>จากคำสั่งของคุณ: *"{prompt}"*<br><br>• **ภาษาอังกฤษ (English):** Hello! How can I help you today?<br>• **ภาษาจีน (Chinese):** 你好！今天有什么我可以帮你的吗？<br>• **ภาษาญี่ปุ่น (Japanese):** こんにちは！何かお手伝いできますか？<br><br>*(หากต้องการแปลประโยคเจาะจง สามารถพิมพ์ระบุคำและภาษาที่ต้องการได้เลยครับ!)*'
+        bot_reply = f'🌐 **ผลการแปลภาษา:**<br>จากคำสั่งของคุณ: *"{prompt}"*<br><br>• **ภาษาอังกฤษ (English):** Hello! How can I help you today?<br>• **ภาษาจีน (Chinese):** 你好！今天有什么我可以帮你的吗？<br>• **ภาษาญี่ปุ่น (Japanese):** こんにちは！何かお手伝いできますか？'
 
       else:
         if "โหมดสนุกสนาน" in bot_mode:
@@ -259,7 +292,7 @@ if prompt := st.chat_input(
 
         else:
           general_pack = [
-              "🤝 **สวัสดีครับ!** ผมพร้อมช่วยคุณทั้งคุยเล่น หาความรู้ หรือช่วย **แปลภาษา** ต่างๆ พิมพ์สั่งมาได้เลยนะ!",
+              "🤝 **สวัสดีครับ!** ผม **BENTEN AI** พร้อมช่วยคุณทั้งคุยเล่น หาความรู้ หรือช่วย **แปลภาษา** ต่างๆ พิมพ์สั่งมาได้เลยนะ!",
               "☕ **พักผ่อนสักนิด:** ทำงานหรือเรียนมาเหนื่อยๆ อย่าลืมหาเครื่องดื่มอุ่นๆ ดื่มเติมพลัง มีผมคอยซัพพอร์ตอยู่ตรงนี้เสมอ!",
               "🌍 อยากให้ช่วยแปลประโยคไหน หรือคุยเรื่องอะไรดีครับวันนี้ พิมพ์บอกได้เลย!",
           ]
