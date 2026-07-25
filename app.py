@@ -40,7 +40,7 @@ st.markdown(
 
 # แสดงผลหัวข้อแบบสวยงาม
 st.markdown(
-    '<p class="main-title">🤖 BENTEN AI - พรีเมียมอีดิทชัน</p>',
+    '<p class="main-title">🤖 BENTEN AI - v4</p>',
     unsafe_allow_html=True,
 )
 st.markdown(
