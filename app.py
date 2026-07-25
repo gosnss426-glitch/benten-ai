@@ -4,7 +4,7 @@ import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.6 Stable Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.7 Auto-Model Pro", page_icon="⚡", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,7 +18,7 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.6</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.7</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -127,7 +127,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.6 Stable Pro")
+  st.caption("🚀 BENTEN AI V9.7 Auto-Model Pro")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -262,22 +262,41 @@ if prompt := st.chat_input(
         try:
           genai.configure(api_key=st.session_state.api_key)
 
-          # ใช้รุ่น gemini-2.5-flash ที่มีความเสถียรและเหมาะกับการใช้งานทั่วไป
-          model = genai.GenerativeModel("gemini-2.5-flash")
+          # ระบบสแกนหาโมเดลที่รองรับข้อความอัตโนมัติจาก Key ของคุณ
+          models = [
+              m.name
+              for m in genai.list_models()
+              if "generateContent" in m.supported_generation_methods
+          ]
+          target_model = None
+          for preferred in [
+              "gemini-1.5-flash",
+              "gemini-1.5-pro",
+              "gemini-2.0-flash",
+          ]:
+            matching = [m for m in models if preferred in m]
+            if matching:
+              target_model = matching[0]
+              break
+          if not target_model and models:
+            target_model = models[0]
 
-          system_prompt = (
-              "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
-              " ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล และแปลภาษาได้อย่างยอดเยี่ยม"
-              " พูดจาสุภาพ เป็นมิตร และให้คำตอบที่เป็นประโยชน์"
-          )
-          full_prompt = f"{system_prompt}\n\nผู้ใช้ถามว่า: {prompt}"
-
-          response = model.generate_content(full_prompt)
-          bot_reply = response.text
+          if target_model:
+            model = genai.GenerativeModel(target_model)
+            system_prompt = (
+                "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
+                " ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล และแปลภาษาได้อย่างยอดเยี่ยม"
+                " พูดจาสุภาพ เป็นมิตร และให้คำตอบที่เป็นประโยชน์"
+            )
+            full_prompt = f"{system_prompt}\n\nผู้ใช้ถามว่า: {prompt}"
+            response = model.generate_content(full_prompt)
+            bot_reply = response.text
+          else:
+            bot_reply = "⚠️ ไม่พบโมเดล AI ที่รองรับบน API Key นี้"
         except Exception as e:
           error_str = str(e)
           if "429" in error_str:
-            bot_reply = "⚠️ **โควตาการใช้งานเต็มชั่วคราว (Rate Limit Exceeded):** เนื่องจากมีการส่งข้อความถี่เกินไปในโหมดฟรี ให้รอสักครู่ประมาณ 30-60 วินาที แล้วลองพิมพ์ใหม่อีกครั้งครับ หรือแนะนำให้สร้าง API Key ใหม่จาก Google AI Studio มาเปลี่ยนครับ"
+            bot_reply = "⚠️ **โควตาการใช้งานเต็มชั่วคราว:** กรุณารอสัก 30-60 วินาทีแล้วลองส่งข้อความใหม่อีกครั้งครับ"
           else:
             bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e}"
 
