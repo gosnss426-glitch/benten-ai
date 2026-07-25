@@ -4,7 +4,7 @@ import google.generativeai as genai
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.5 Smart Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V9.6 Stable Pro", page_icon="⚡", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,7 +18,7 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.5</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.6</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -127,7 +127,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.5 Smart Pro")
+  st.caption("🚀 BENTEN AI V9.6 Stable Pro")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -261,8 +261,9 @@ if prompt := st.chat_input(
       elif st.session_state.api_key:
         try:
           genai.configure(api_key=st.session_state.api_key)
-          # อัปเดตเปลี่ยนมาใช้รุ่นมาตรฐานปัจจุบัน gemini-2.0-flash
-          model = genai.GenerativeModel("gemini-2.0-flash")
+
+          # ใช้รุ่น gemini-2.5-flash ที่มีความเสถียรและเหมาะกับการใช้งานทั่วไป
+          model = genai.GenerativeModel("gemini-2.5-flash")
 
           system_prompt = (
               "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
@@ -274,7 +275,11 @@ if prompt := st.chat_input(
           response = model.generate_content(full_prompt)
           bot_reply = response.text
         except Exception as e:
-          bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e} (โปรดตรวจสอบ API Key ของคุณอีกครั้ง)"
+          error_str = str(e)
+          if "429" in error_str:
+            bot_reply = "⚠️ **โควตาการใช้งานเต็มชั่วคราว (Rate Limit Exceeded):** เนื่องจากมีการส่งข้อความถี่เกินไปในโหมดฟรี ให้รอสักครู่ประมาณ 30-60 วินาที แล้วลองพิมพ์ใหม่อีกครั้งครับ หรือแนะนำให้สร้าง API Key ใหม่จาก Google AI Studio มาเปลี่ยนครับ"
+          else:
+            bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e}"
 
       else:
         if "โหมดสนุกสนาน" in bot_mode:
