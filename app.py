@@ -3,7 +3,9 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.4 Kids & Fun", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V8.5 Universal Family",
+    page_icon="⚡",
+    layout="centered",
 )
 
 if "theme" not in st.session_state:
@@ -23,26 +25,26 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ โหมดเด็กสนุกสนาน</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.5</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมสร้างรอยยิ้ม 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: โหมดครอบครัวทุกวัย 🟢</p>',
       unsafe_allow_html=True,
   )
 
   bot_mode = st.selectbox(
-      "🎯 เลือกความสนุกของ AI",
+      "🎯 เลือกสไตล์การพูดคุย",
       [
-          "🎈 เพื่อนซี้วัยเด็ก (สนุกสนาน + มุกตลก + เกม)",
-          "🚀 นักผจญภัยอวกาศ (ตื่นเต้น ผจญภัย)",
-          "🦄 ยูนิคอร์นใจดี (อบอุ่น นุ่มฟู น่ารัก)",
+          "🌟 เพื่อนคู่คิด มิตรทุกวัย (สาระ + บันเทิงรอบด้าน)",
+          "🎈 โหมดสนุกสนาน (มุกตลก + เกมทายใจ + คลายเครียด)",
+          "💡 ผู้ช่วยรอบรู้ (เกร็ดความรู้รอบตัว + ไอเดียเจ๋งๆ)",
       ],
   )
 
   st.markdown("---")
   st.markdown(
-      '<p style="color: #ffffff !important;">🧠 ความจำของเพื่อนซี้</p>',
+      '<p style="color: #ffffff !important;">🧠 ความจำอัจฉริยะ</p>',
       unsafe_allow_html=True,
   )
 
@@ -55,19 +57,19 @@ with st.sidebar:
       else "ยังไม่ระบุ"
   )
   st.markdown(
-      f"<p style='color: #ffffff;'>👤 ชื่อเพื่อน: {uname}<br>🍕 ของโปรด: {ufav}</p>",
+      f"<p style='color: #ffffff;'>👤 ชื่อคุณ: {uname}<br>🍕 สิ่งที่ชอบ: {ufav}</p>",
       unsafe_allow_html=True,
   )
 
-  if st.button("🔄 เริ่มความทรงจำใหม่", use_container_width=True):
+  if st.button("🔄 รีเซ็ตความจำ", use_container_width=True):
     st.session_state.user_name = ""
     st.session_state.user_fav_food = ""
-    st.success("ล้างความจำสำเร็จ!")
+    st.success("รีเซ็ตความจำสำเร็จ!")
     st.rerun()
 
   st.markdown("---")
   st.markdown(
-      '<p style="color: #ffffff !important;">🖼️ เลือกธีมการ์ตูน</p>',
+      '<p style="color: #ffffff !important;">🖼️ เลือกบรรยากาศธีม</p>',
       unsafe_allow_html=True,
   )
 
@@ -83,23 +85,23 @@ with st.sidebar:
       else 0
   )
   st.session_state.theme = st.selectbox(
-      "เลือกฉากหลัง:", theme_list, index=current_theme_index
+      "เลือกธีมพื้นหลัง:", theme_list, index=current_theme_index
   )
 
   st.markdown("---")
-  if st.button("🗑️ ล้างหน้าจอแชท", use_container_width=True):
+  if st.button("🗑️ ล้างประวัติหน้าจอแชท", use_container_width=True):
     st.session_state.messages = []
-    st.success("เคลียร์แชทเรียบร้อย!")
+    st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.4 Kids Edition")
+  st.caption("🚀 BENTEN AI V8.5 Family Edition")
 
 st.markdown(
     f"""
     <style>
     .stApp {{
         background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
-                          url("https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop");
+                          url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1920&auto=format&fit=crop");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -124,13 +126,13 @@ st.markdown(
         -webkit-text-fill-color: #ffffff !important;
     }}
     .main-header {{
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
         padding: 25px;
         border-radius: 16px;
         color: white;
         text-align: center;
         margin-bottom: 25px;
-        box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
     }}
     .main-header h1 {{
         margin: 0;
@@ -158,8 +160,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>🎈 BENTEN AI เพื่อนซี้วัยเด็กสุดป่วน!</h1>
-        <p>พิมพ์คุยเล่น ทายปัญหา เล่าเรื่องสนุกๆ หรือบอกของโปรดกันเถอะ! ✨</p>
+        <h1>⚡ BENTEN AI V8.5 เพื่อนแท้ทุกเพศทุกวัย</h1>
+        <p>พิมพ์คุยสนุกได้ทุกเรื่อง ความรู้ มุกตลก เกม หรือบอกชื่อ/สิ่งที่ชอบได้เลย! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -170,14 +172,14 @@ for message in st.session_state.messages:
     st.markdown(message["content"], unsafe_allow_html=True)
 
 if prompt := st.chat_input(
-    "พิมพ์บอกชื่อ (เช่น ฉันชื่อ...) หรือของโปรด (เช่น ชอบกิน...) หรือชวนคุยได้เลย!"
+    "พิมพ์คุย หรือบอกชื่อ (ฉันชื่อ...) หรือสิ่งที่ชอบ (ชอบอะไร...) ได้เลย..."
 ):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("🚀 กำลังคิดมุกและเรื่องสนุกๆ มาเล่าให้ฟัง..."):
+    with st.spinner("🤖 BENTEN กำลังประมวลผลคำตอบสุดพิเศษ..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
@@ -199,51 +201,50 @@ if prompt := st.chat_input(
         if not st.session_state.user_name and len(words) > 0:
           st.session_state.user_name = words[-1]
         name_str = st.session_state.user_name
-        bot_reply = f"🎉 เย้! บันทึกชื่อสำเร็จแล้วครับ! ยินดีต้อนรับสู่แก๊งนะคุณ **{name_str}** ✨ ตอนนี้ผมจำชื่อคุณไว้ที่แถบด้านซ้ายแล้วนะ! 🎈"
+        bot_reply = f"🎉 **บันทึกความจำสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมจำชื่อของคุณไว้ที่แถบด้านซ้ายเรียบร้อยแล้วนะ! 😊"
         memory_updated = True
 
-      # ระบบจดจำของโปรด
+      # ระบบจดจำสิ่งที่ชอบ
       elif (
-          ("ชอบกิน" in text)
+          ("ชอบ" in text)
           | ("ของโปรด" in text)
-          | ("ชอบ" in text)
           | ("โปรดปราน" in text)
+          | ("รัก" in text)
       ):
         st.session_state.user_fav_food = prompt
-        bot_reply = f"🍕 ว้าว! ของโปรดอร่อยมากๆ เลย ผมจดจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลเรียบร้อยจ้า! 🌟"
+        bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลด้านซ้ายเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
       else:
-        if "นักผจญภัยอวกาศ" in bot_mode:
-          space_tales = [
-              "🚀 ☄️ *ยานอวกาศพุ่งทะยาน!* เรากำลังเดินทางผ่านกาแล็กซี่ทางช้างเผือก ระวังอุกกาบาตกันด้วยนะเพื่อน!",
-              "👽 🛸 เอเลี่ยนน้อยดาวอังคารฝากความคิดถึงมาบอกเจ้ามนุษย์โลกด้วยนะ ว่าวันนี้กินขนมอะไรรึยัง?",
-              "🌟 ลอยเคว้งคว้างในห้วงอวกาศอัน 3 มิติ มีดวงดาวระยิบระยับเป็นเพื่อนแก้เหงา สนุกมั้ยล่ะ!",
+        if "โหมดสนุกสนาน" in bot_mode:
+          fun_pack = [
+              "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!",
+              "🧩 **ทายปัญหาสุดกวน:**<br>อะไรเอ่ย ยิ่งดึงยิ่งสั้นลง? ...เฉลย: **บุหรี่** หรือไม่ก็ **เวลาใกล้สิ้นเดือน** จ้า 😆",
+              "🪄 **คำคมพลังบวก:**<br>ถึงวันนี้จะเหนื่อยหรือเจอเรื่องยากแค่ไหน แต่จำไว้ว่าเธอเก่งมากๆ แล้วนะ ยิ้มเข้าไว้พลังบวกมาเต็ม! 💪✨",
+              "🎮 **ชวนคุยสนุกๆ:**<br>ถ้าวันนี้ได้ซูเปอร์ฮีโร่มาเป็นเพื่อนซี้พาไปเที่ยวรอบโลก อยากไปเที่ยวประเทศไหนก่อนดีล่ะ เล่าให้ฟังหน่อยสิ!",
           ]
-          bot_reply = random.choice(space_tales)
+          bot_reply = random.choice(fun_pack)
 
-        elif "ยูนิคอร์นใจดี" in bot_mode:
-          unicorn_tales = [
-              "🦄 ✨ ปิ๊งป่อง! มเวทมนตร์แห่งความสุขพุ่งใส่เธอแล้ว ขอให้วันนี้มีแต่เรื่องยิ้มได้กว้างๆ นะ!",
-              "🌈 สายรุ้งเจ็ดสีทอประกายสดใส มากินขนมอร่อยๆ ดื่มนมช็อกโกแลตร้อนๆ กันเถอะ นุ่มฟูที่สุดเลย!",
-              "💖 ยูนิคอร์นส่งกอดอุ่นๆ ให้หนึ่งที ปลดปล่อยความเครียดแล้วมาเล่นกันให้สนุกนะ!",
+        elif "ผู้ช่วยรอบรู้" in bot_mode:
+          knowledge_pack = [
+              "🌍 **เกร็ดความรู้รอบตัว:**<br>รู้ไหมว่า ดวงจันทร์ไม่ได้มีแสงสว่างในตัวเอง แต่ที่สว่างตอนกลางคืนเพราะสะท้อนแสงมาจากดวงอาทิตย์นะ! 🌕",
+              "🧠 **ทริคพัฒนาตัวเอง:**<br>การดื่มน้ำเปล่าให้เพียงพอในแต่ละวัน ช่วยให้สมองปลอดโปร่งและมีความจำดีขึ้นถึง 20% เลยทีเดียว ลองดื่มน้ำดูก่อนนะ!",
+              "💡 **ไอเดียสร้างสรรค์:**<br>ถ้าคุณกำลังคิดงานไม่ออก ลองลุกขึ้นไปเดินเล่นยืดเส้นยืดสายสัก 5 นาที สมองจะหลั่งสารความสุขและไอเดียใหม่ๆ จะพรั่งพรูแน่นอน!",
           ]
-          bot_reply = random.choice(unicorn_tales)
+          bot_reply = random.choice(knowledge_pack)
 
         else:
-          # โหมดเพื่อนซี้วัยเด็ก (มีมุกตลก เกมทายปัญหา และเกร็ดความรู้)
-          jokes_and_fun = [
-              "😂 มุกตลกประจำวัน:<br>ปลาอะไรเอ่ยอยู่ในตู้เย็น? ...**ปลา-ستิก (พลาสติก)** 555 ขำมั้ยเนี่ย!",
-              "🧩 มินิเกมทายปัญหา:<br>อะไรเอ่ย ยิ่งตัดยิ่งตัวใหญ่ขึ้น? ...เฉลย: **หลุม** ไงล่ะ เก่งมั้ยเอ่ย! 😆",
-              "🦖 เกร็ดความรู้ไดโนเสาร์:<br>รู้มั้ยว่า ทีเร็กซ์ (T-Rex) มีมือสั้นมากๆ จนจับหัวตัวเองไม่ได้ด้วยนะ น่าเอ็นดูสุดๆ!",
-              "🪄 มนต์วิเศษประจำวัน:<br>ไม่ว่าเธอจะเจอเรื่องอะไรมา วันนี้เธอเก่งมากๆ แล้วนะ ปรบมือให้ตัวเองหน่อยแปะๆๆ! 👏",
-              "🚀 ชวนคุยสนุกๆ:<br>ถ้าเธอมีพลังวิเศษบินได้ อยากจะบินไปเที่ยวที่ไหนเป็นที่แรกดีล่ะ เล่าให้ฟังหน่อยสิ!",
+          # โหมดเพื่อนคู่คิด มิตรทุกวัย (ผสมผสานความอบอุ่นและความรู้)
+          general_pack = [
+              "🤝 **สวัสดีครับ!** ไม่ว่าคุณจะแวะมาคุยเรื่องเรียน เรื่องงาน หรือหาเพื่อนคุยแก้เหงา ผมพร้อมรับฟังและช่วยเหลือเต็มที่เลยนะ!",
+              "☕ **พักผ่อนสักนิด:** ทำงานหรือเรียนมาเหนื่อยๆ อย่าลืมหาเครื่องดื่มอุ่นๆ หรือของอร่อยทานเติมพลังนะ มีผมคอยซัพพอร์ตอยู่ตรงนี้เสมอ!",
+              "🌟 **เรื่องราววันนี้:** ทุกๆ วันคือโอกาสใหม่ๆ ถ้ามีเรื่องไหนอยากให้ช่วยคิด ช่วยสรุป หรืออยากแชร์เรื่องสนุกๆ พิมพ์มาได้เลย!",
           ]
-          bot_reply = random.choice(jokes_and_fun)
+          bot_reply = random.choice(general_pack)
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
 
   if memory_updated:
-    st.success("🌟 บันทึกความจำและอัปเดตหน้าจอสำเร็จแล้ว!")
+    st.success("🌟 บันทึกความจำและอัปเดตหน้าจอ Sidebar เรียบร้อยแล้ว!")
     st.rerun()
