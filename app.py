@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V6.5 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V6.6 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -17,7 +17,7 @@ if "auto_clear" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.5</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.6</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -114,8 +114,9 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V6.5 Pro Edition")
+  st.caption("🚀 BENTEN AI V6.6 Pro Edition")
 
+# CSS บังคับสีตัวหนังสือทั้งหมดให้อ่านง่าย ชัดเจน 100%
 st.markdown(
     f"""
     <style>
@@ -127,16 +128,36 @@ st.markdown(
         background-attachment: fixed;
         color: #f8fafc;
     }}
+    
+    /* บังคับสีข้อความในกล่องแชทบอท */
     .stChatMessage p, .stChatMessage div, .stChatMessage span {{
         color: {selected_hex} !important;
     }}
+    
+    /* บังคับสีข้อความของผู้ใช้งาน (User) ให้เป็นสีเหลืองทองหรือขาวเด่นชัด */
+    [data-testid="stChatMessage"]:nth-child(odd) p {{
+        color: #38bdf8 !important;
+    }}
+    
     [data-testid="stChatMessage"] {{
-        background-color: rgba(30, 41, 59, 0.8) !important;
+        background-color: rgba(30, 41, 59, 0.85) !important;
         border-radius: 16px !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(10px);
     }}
+    
+    /* บังคับช่องพิมพ์ข้อความด้านล่าง (Chat Input) ให้พิมพ์เห็นชัดเจน */
+    [data-testid="stChatInput"] textarea {{
+        color: #ffffff !important;
+        background-color: rgba(30, 41, 59, 0.9) !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }}
+    
+    [data-testid="stChatInput"] {{
+        background-color: transparent !important;
+    }}
+    
     .main-header {{
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%);
         padding: 25px;
@@ -178,8 +199,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V6.5 Pro</h1>
-        <p>ระบบตั้งค่าอัจฉริยะ ปรับแต่งหน้าตาและมองเห็นเมนูฟังก์ชันได้อย่างชัดเจน!</p>
+        <h1>⚡ BENTEN AI V6.6 Pro</h1>
+        <p>ระบบปรับแต่งความคมชัด แก้ไขสีตัวอักษรและช่องพิมพ์ข้อความให้มองเห็นชัดเจน!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -207,7 +228,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.5..."):
+    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.6..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -237,4 +258,4 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
 
     st.markdown(bot_reply, unsafe_allow_html=True)
 
-  st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+  st.session_state.messa
