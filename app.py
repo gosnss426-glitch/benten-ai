@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V7.2 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V7.3 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -19,7 +19,7 @@ if "messages" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.2</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.3</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -116,7 +116,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V7.2 Pro Edition")
+  st.caption("🚀 BENTEN AI V7.3 Pro Edition")
 
 st.markdown(
     f"""
@@ -191,7 +191,7 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V7.2 Pro</h1>
+        <h1>⚡ BENTEN AI V7.3 Pro</h1>
         <p>ระบบอัจฉริยะ พร้อมแนะนำเมนูอาหารอร่อยๆ และพูดคุยได้ทุกสไตล์!</p>
     </div>
 """,
@@ -217,25 +217,21 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังเฟ้นหาเมนูเด็ดเวอร์ชัน V7.2..."):
+    with st.spinner("กำลังเฟ้นหาเมนูเด็ดเวอร์ชัน V7.3..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
       if "สายกวน" in bot_mode:
         if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
-          bot_reply = "😏 หิวหรอ? จัดไป: **กะเพราไข่ดาว** สั่งด่วน!<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>"
+          bot_reply = "😏 หิวหรอ? จัดไป: **กะเพราไข่ดาว** สั่งด่วน!"
         else:
-          gwan_replies = [
-              f"😏 ถามมาได้ว่า '{prompt}' นึกว่าฉลาด 😜<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>",
-              f"🙄 เรื่อง '{prompt}' ตอบไปเดี๋ยวคุณจะฉลาดเกินหน้า! แฮ่<br><br><img src='https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif' width='130'>",
-          ]
-          bot_reply = random.choice(gwan_replies)
+          bot_reply = f"😏 ถามมาได้ว่า '{prompt}' นึกว่าฉลาด 😜"
 
       elif "นักให้คำปรึกษา" in bot_mode:
         if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
-          bot_reply = '🧘‍♂️ แนะนำ **"แกงจืดเต้าหู้หมูสับ"** ทานอุ่นๆ สบายท้องครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
+          bot_reply = '🧘‍♂️ แนะนำ **"แกงจืดเต้าหู้หมูสับ"** ทานอุ่นๆ สบายท้องครับ ❤️'
         else:
-          bot_reply = f'🧘‍♂️ จากเรื่อง *"{prompt}"* ค่อยๆ คิดนะ ผมพร้อมซัพพอร์ตเสมอ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
+          bot_reply = f'🧘‍♂️ จากเรื่อง *"{prompt}"* ค่อยๆ คิดนะ ผมพร้อมซัพพอร์ตเสมอ ❤️'
 
       else:
         if any(
@@ -261,19 +257,21 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
           bot_reply = (
               "😋 วันนี้แนะนำเมนูนี้เลย:<br><br>"
               + chosen_food
-              + "<br><br>อยากให้หาพิกัดหรือสูตรเพิ่มบอกได้นะ! 🍳✨<br><br><img"
-              " src='https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif'"
-              " width='130'>"
+              + "<br><br>อยากให้หาพิกัดหรือสูตรเพิ่มบอกได้นะ! 🍳✨"
           )
         elif any(w in text for w in ["สวัสดี", "หวัดดี", "hi", "hello", "ดีจ้า"]):
-          bot_reply = "🤗 สวัสดีครับ! วันนี้หิวไหม หรือมีอะไรให้ช่วยบอกได้เลยนะ ❤️<br><br><img src='https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif' width='130'>"
+          bot_reply = "🤗 สวัสดีครับ! วันนี้หิวไหม หรือมีอะไรให้ช่วยบอกได้เลยนะ ❤️"
         elif any(w in text for w in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
               "📅 เวลาประมาณ "
               + now.strftime("%H:%M น.")
-              + " ได้เวลาหาอะไรอร่อยๆ ทานยังเอ่ย?<br><br><img"
-              " src='https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif'"
-              " width='130'>"
+              + " ได้เวลาหาอะไรอร่อยๆ ทานยังเอ่ย?"
           )
         elif any(w in text for w in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]):
-          bot_reply = "🫂 เหนื่อยมากพักผ่อนนะ หาของหวานอร่อยๆ ทานเติมพลังใจ มีผมคอยอยู่ข้างๆ!<br><br><img src='https://media.giphy.com/media/3oEdv4hwWTzBhWvaU
+          bot_reply = "🫂 เหนื่อยมากพักผ่อนนะ หาของหวานอร่อยๆ ทานเติมพลังใจ มีผมคอยอยู่ข้างๆ!"
+        else:
+          bot_reply = f'😊 ได้รับเรื่อง *"{prompt}"* แล้วครับ มีอะไรอยากให้ช่วยเพิ่มบอกได้เลยนะ!'
+
+    st.markdown(bot_reply, unsafe_allow_html=True)
+
+  st.session_state.messages.append({"role": "assistant", "content": bot_reply})
