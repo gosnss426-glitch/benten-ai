@@ -1,16 +1,8 @@
-import google.generativeai as genai
+import random
 import streamlit as st
 
 st.title("🤖 BENTEN AI - ที่ปรึกษาส่วนตัว")
-st.write(
-    "เชื่อมต่อสมองกล AI ของจริงแล้ว! ถามอะไรก็ได้ที่คุณอยากรู้เลยครับ"
-)
-
-# ใส่รหัส API Key ของคุณที่นี่
-GEMINI_API_KEY = "AIzaSyD_xs8Cx-bEYDrb0X3Gt6Vmpahf7UQ"
-
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+st.write("สวัสดีครับ! มีอะไรให้ BENTEN AI ช่วยวันนี้ พิมพ์มาได้เลยครับ")
 
 if "messages" not in st.session_state:
   st.session_state.messages = []
@@ -25,13 +17,33 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังคิดคำตอบ..."):
-      try:
-        response = model.generate_content(prompt)
-        bot_reply = response.text
-        st.markdown(bot_reply)
-      except Exception as e:
-        bot_reply = f"เกิดข้อผิดพลาด: {e}"
-        st.error(bot_reply)
+    # คลังคำตอบแบบสุ่มและแยกตามหมวดหมู่คำถาม
+    text = prompt.lower()
+
+    if "สวัสดี" in text or "หวัดดี" in text:
+      bot_reply = random.choice([
+          "สวัสดีครับ! วันนี้มีอะไรให้ผมช่วยดูแลเป็นพิเศษไหมครับ 😊",
+          "สวัสดีครับคุณผู้ใช้! พร้อมลุยงานกันต่อเลยครับ",
+      ])
+    elif "ชื่ออะไร" in text or "เธอคือใคร" in text:
+      bot_reply = "ผมคือ BENTEN AI ผู้ช่วยอัจฉริยะส่วนตัวของคุณเองครับ!"
+    elif "ทำอะไรได้บ้าง" in text or "ช่วยอะไร" in text:
+      bot_reply = (
+          "ผมช่วยคุยเป็นเพื่อน ค้นหาไอเดีย ทักทาย หรือตอบคำถามทั่วไปได้ครับ!"
+      )
+    elif "หิว" in text or "กินอะไรดี" in text:
+      bot_reply = random.choice([
+          "แนะนำข้าวกะเพราไก่ไข่ดาว หรือส้มตำไก่ย่างเลยครับ กำลังน่ากิน!",
+          "ลองหาอะไรร้อนๆ ซดให้ชื่นใจดูสครับ เช่น ก๋วยเตี๋ยวหรือต้มยำ",
+      ])
+    elif "ขอบใจ" in text or "ขอบคุณ" in text:
+      bot_reply = "ด้วยความยินดีเลยครับ มีอะไรให้ช่วยเพิ่มบอกได้เสมอนะครับ! 👍"
+    else:
+      bot_reply = (
+          f"อืม... น่าสนใจมากครับสำหรับเรื่อง '{prompt}'"
+          " ไว้ผมจะหาข้อมูลมาเพิ่มให้นะครับ! มีเรื่องอื่นอยากคุยอีกไหมครับ?"
+      )
+
+    st.markdown(bot_reply)
 
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
