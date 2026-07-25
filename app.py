@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="BENTEN AI - Version 5.0", page_icon="🚀", layout="centered"
 )
 
-# แถบเมนูด้านข้าง (Sidebar) พร้อมเมนูเลือกสีตัวหนังสือ
+# แถบเมนูด้านข้าง (Sidebar) พร้อมเพิ่มตัวเลือกสีดำ
 with st.sidebar:
   st.title("⚙️ ควบคุมระบบ v5")
   st.write("สถานะ: **ออนไลน์ 🟢**")
@@ -20,10 +20,11 @@ with st.sidebar:
   st.markdown("---")
   st.subheader("🎨 ปรับแต่งสีตัวหนังสือ")
 
-  # ให้ผู้ใช้เลือกสีตัวหนังสือแชทได้ตามใจชอบ
+  # เพิ่มตัวเลือกสีดำในรายการ
   text_color = st.selectbox(
       "เลือกสีข้อความแชท:",
       [
+          "สีดำเข้มคมชัด (Solid Black)",
           "สีขาวคลาสสิก (White)",
           "สีฟ้าสว่างนีออน (Neon Blue)",
           "สีเขียวมิ้นท์ (Mint Green)",
@@ -33,7 +34,9 @@ with st.sidebar:
   )
 
   # แปลงค่าที่เลือกเป็นรหัสสี CSS
-  if "ฟ้าสว่าง" in text_color:
+  if "สีดำเข้ม" in text_color:
+    selected_hex = "#000000"
+  elif "ฟ้าสว่าง" in text_color:
     selected_hex = "#38bdf8"
   elif "เขียวมิ้นท์" in text_color:
     selected_hex = "#34d399"
@@ -103,7 +106,7 @@ st.markdown(
     """
     <div class="main-header">
         <h1>🚀 BENTEN AI - v5.0</h1>
-        <p>ระบบผู้ช่วยอัจฉริยะ ปรับเปลี่ยนสีตัวหนังสือได้ตามใจชอบ</p>
+        <p>ระบบผู้ช่วยอัจฉริยะ ปรับเปลี่ยนสีตัวหนังสือรวมถึงสีดำได้ตามใจชอบ</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -137,7 +140,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         if any(
             word in text for word in ["สวัสดี", "หวัดดี", "hi", "hello"]
         ):
-          bot_reply = "👋 สวัสดีครับคุณผู้ใช้! ยินดีต้อนรับสู่ **BENTEN AI v5** อยากเปลี่ยนสีข้อความแบบไหน เลือกได้ที่เมนูด้านซ้ายเลยครับ!"
+          bot_reply = "👋 สวัสดีครับคุณผู้ใช้! ยินดีต้อนรับสู่ **BENTEN AI v5** อยากใช้ตัวหนังสือสีดำหรือสีอื่นๆ เลือกได้ที่เมนูด้านซ้ายเลยครับ!"
         elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
               f"📅 ขณะนี้เวลา {now.strftime('%H:%M น.')} วันที่"
@@ -148,7 +151,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
               "🍜 มื้อนี้แนะนำข้าวมันไก่ หรือก๋วยเตี๋ยวรสเด็ดเลยครับ กำลังหิวพอดี!"
           )
         else:
-          bot_reply = f"✨ ได้รับข้อความเวอร์ชัน v5 แล้ว: *\"{prompt}\"* สีตัวหนังสือสวยแจ่มไปเลยใช่ไหมครับ!"
+          bot_reply = f"✨ ได้รับข้อความเวอร์ชัน v5 แล้ว: *\"{prompt}\"* แจ๋วเลยครับ!"
 
     st.markdown(bot_reply)
 
