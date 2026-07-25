@@ -4,7 +4,7 @@ import streamlit as st
 
 # ตั้งค่าหน้าเว็บเวอร์ชัน 5.6
 st.set_page_config(
-    page_title="BENTEN AI - V5.6", page_icon="🤖", layout="centered"
+    page_title="BENTEN AI - Dual Mode", page_icon="🤖", layout="centered"
 )
 
 # แถบเมนูด้านข้าง (Sidebar) ปรับแต่งตัวหนังสือให้มองเห็นชัดเจน
