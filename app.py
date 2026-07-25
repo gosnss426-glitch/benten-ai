@@ -4,8 +4,11 @@ from groq import Groq
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI Ultimate", page_icon="🦖", layout="centered"
+    page_title="BENTEN AI เพื่อนแท้ทุกเพศทุกวัย", page_icon="🦖", layout="centered"
 )
+
+# ฝัง API Key ไว้ล่วงหน้าเพื่อให้ผู้ใช้ทุกคนใช้งานได้ทันทีโดยไม่ต้องกรอกเอง
+DEFAULT_GROQ_KEY = "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"
 
 if "bg_color" not in st.session_state:
   st.session_state.bg_color = "อนิเมะยามค่ำคืน (Night Anime)"
@@ -20,30 +23,13 @@ if "user_mood" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ BENTEN AI</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ BENTEN AI Control</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #f97316 !important;">สถานะ: สมองกลอัจฉริยะขั้นสุด 🚀</p>',
+      '<p style="color: #22c55e !important;">สถานะ: พร้อมใช้งานสำหรับทุกคน 🚀</p>',
       unsafe_allow_html=True,
   )
-
-  st.markdown(
-      '<p style="color: #ffffff !important; font-size: 0.9rem;">🔑 Groq API Key</p>',
-      unsafe_allow_html=True,
-  )
-  api_key_input = st.text_input(
-      "API Key",
-      type="password",
-      placeholder="วาง Groq API Key ที่นี่...",
-      label_visibility="collapsed",
-  )
-
-  if api_key_input:
-    st.session_state.api_key = api_key_input
-    st.success("เชื่อมต่อสมองกลสำเร็จ!")
-  elif "api_key" not in st.session_state:
-    st.session_state.api_key = ""
 
   st.markdown("---")
 
@@ -53,15 +39,15 @@ with st.sidebar:
       f"""
     <div style="
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
-        border: 2px solid #f97316;
+        border: 2px solid #22c55e;
         border-radius: 14px;
         padding: 12px;
         text-align: center;
-        box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
         margin-bottom: 15px;
     ">
         <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin-bottom: 2px;">⏰ เวลาปัจจุบัน (Live)</div>
-        <div style="font-size: 1.5rem; color: #f97316; font-weight: 800; letter-spacing: 1px;">{current_time_str}</div>
+        <div style="font-size: 1.5rem; color: #22c55e; font-weight: 800; letter-spacing: 1px;">{current_time_str}</div>
         <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px;">📅 {current_date_str}</div>
     </div>
     """,
@@ -132,7 +118,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🦖 BENTEN AI Ultimate Edition")
+  st.caption("🦖 BENTEN AI Public Edition")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -211,7 +197,7 @@ st.markdown(
             <div class="running-icon">🦖</div>
         </div>
         <h1>🦖 BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
-        <p>ผู้ช่วยอัจฉริยะระบบความจำล้ำหน้า ค้นหาข้อมูลและรู้ใจคุณที่สุด! ✨</p>
+        <p>ผู้ช่วยอัจฉริยะ พร้อมให้ทุกคนใช้งานได้ทันทีโดยไม่ต้องตั้งค่า! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -229,12 +215,11 @@ if prompt := st.chat_input(
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("🦖 BENTEN AI กำลังวิเคราะห์ข้อมูลและอารมณ์ของคุณ..."):
+    with st.spinner("🦖 BENTEN AI กำลังคิดคำตอบให้อย่างรวดเร็ว..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
 
-      # ตรวจจับอารมณ์ผู้ใช้
       if any(
           w in text for w in ["เครียด", "เหนื่อย", "เศร้า", "ท้อ", "แย่จัง"]
       ):
@@ -271,9 +256,9 @@ if prompt := st.chat_input(
         bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงระบบเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
-      elif st.session_state.api_key:
+      else:
         try:
-          client = Groq(api_key=st.session_state.api_key)
+          client = Groq(api_key=DEFAULT_GROQ_KEY)
           system_content = (
               f"คุณคือ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย"
               f" ผู้ช่วยอัจฉริยะที่รู้ใจผู้ใช้ ข้อมูลผู้ใช้ปัจจุบัน: ชื่อ {uname}, สิ่งที่ชอบ:"
@@ -290,13 +275,7 @@ if prompt := st.chat_input(
           )
           bot_reply = chat_completion.choices[0].message.content
         except Exception as e:
-          bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}"
-
-      else:
-        if "โหมดสนุกสนาน" in bot_mode:
-          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: นำ Groq API Key มาใส่ไว้ที่ช่องด้านซ้ายมือเพื่อเริ่มใช้งาน!)*"
-        else:
-          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยเหลือคุณในทุกๆ ด้านแล้วครับ<br><br>👉 **วิธีเปิดใช้งาน:** นำ **Groq API Key** (จาก console.groq.com) มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
+          bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อระบบ AI: {e}"
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
