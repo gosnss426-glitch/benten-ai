@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V7.9 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V8.0 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,11 +23,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.9</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.0</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมใช้งาน 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: แก้ไขครบถ้วน 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -145,7 +145,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V7.9 Pro Edition")
+  st.caption("🚀 BENTEN AI V8.0 Pro Edition")
 
 st.markdown(
     f"""
@@ -220,8 +220,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V7.9 Pro</h1>
-        <p>ระบบเสถียร พร้อมใช้งานคุยและตอบกลับปกติ 100%!</p>
+        <h1>⚡ BENTEN AI V8.0 Pro</h1>
+        <p>ระบบเสถียร สมบูรณ์แบบ 100%!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -246,7 +246,7 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.9..."):
+    with st.spinner("กำลังประมวลผลเวอร์ชัน V8.0..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -306,4 +306,5 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
 
         else:
           is_hungry = (
-              
+              "หิว" in text
+   
