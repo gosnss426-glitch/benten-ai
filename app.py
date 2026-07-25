@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V7.7 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V7.8 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,11 +23,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.7</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.8</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: แก้ไขบั๊กสมบูรณ์ 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: แก้ไขบรรทัดขาด 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -145,7 +145,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V7.7 Pro Edition")
+  st.caption("🚀 BENTEN AI V7.8 Pro Edition")
 
 st.markdown(
     f"""
@@ -220,7 +220,7 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V7.7 Pro</h1>
+        <h1>⚡ BENTEN AI V7.8 Pro</h1>
         <p>ระบบเสถียร พร้อมใช้งานคุยและตอบกลับปกติ 100%!</p>
     </div>
 """,
@@ -246,7 +246,7 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.7..."):
+    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.8..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -277,13 +277,25 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
 
       else:
         if "สายกวน" in bot_mode:
-          if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
+          if (
+              "หิว" in text
+              or "กิน" in text
+              or "อาหาร" in text
+              or "เมนู" in text
+              or "ข้าว" in text
+          ):
             bot_reply = "😏 หิวหรอ? จัดไป: **กะเพราไข่ดาว** สั่งด่วน!"
           else:
             bot_reply = f"😏 ถามมาได้ว่า '{prompt}' นึกว่าฉลาด 😜"
 
         elif "นักให้คำปรึกษา" in bot_mode:
-          if any(w in text for w in ["หิว", "กิน", "อาหาร", "เมนู", "ข้าว"]):
+          if (
+              "หิว" in text
+              or "กิน" in text
+              or "อาหาร" in text
+              or "เมนู" in text
+              or "ข้าว" in text
+          ):
             bot_reply = (
                 '🧘‍♂️ แนะนำ **"แกงจืดเต้าหู้หมูสับ"** ทานอุ่นๆ สบายท้องครับ ❤️'
             )
@@ -293,13 +305,5 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
             )
 
         else:
-          if any(
-              w in text
-              for w in [
-                  "หิว",
-                  "กินอะไรดี",
-                  "เมนู",
-                  "อาหาร",
-                  "ข้าว",
-                  "มื้อเที่ยง",
-           
+          if (
+              "หิว" 
