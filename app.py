@@ -1,71 +1,45 @@
+import datetime
 import random
-import time
+import streamlit as st
 
-def line():
-    print("=========================================")
+st.title("🤖 BENTEN AI v3.0")
+st.write("ยินดีต้อนรับสู่เว็บแชตบอต BENTEN AI ครับ! อยากคุยอะไรพิมพ์มาได้เลย")
 
-def get_random_quote():
+if "messages" not in st.session_state:
+  st.session_state.messages = []
+
+for message in st.session_state.messages:
+  with st.chat_message(message["role"]):
+    st.markdown(message["content"])
+
+if prompt := st.chat_input("พิมพ์ข้อความของคุณที่นี่..."):
+  st.session_state.messages.append({"role": "user", "content": prompt})
+  with st.chat_message("user"):
+    st.markdown(prompt)
+
+  msg_clean = prompt.strip()
+  msg_lower = msg_clean.lower()
+
+  if msg_lower == "เป็นใคร":
+    bot_reply = "ผมคือ AI ที่เขียนด้วยภาษา Python ครับ"
+  elif msg_lower == "เวลา":
+    current_time = datetime.datetime.now().strftime("%H:%M:%S (%d/%m/%Y)")
+    bot_reply = f"เวลาปัจจุบันคือ {current_time}"
+  elif msg_lower == "สุ่ม":
     quotes = [
-        "วันนี้โชคดีแน่นอน!",
-        "สู้ๆ นะ พยายามอีกนิด!",
-        "เยี่ยมมาก ทำดีแล้ว!",
-        "เชื่อมั่นในตัวเอง คุณทำได้!",
-        "พักผ่อนบ้างนะ อย่าหักโหมเกินไป"
+      "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น",
+      "สู้ๆ ครับ วันนี้ต้องเป็นวันของเรา",
+      "เก่งมากเลยที่พัฒนา AI ด้วยตัวเอง!",
     ]
-    return random.choice(quotes)
+    bot_reply = random.choice(quotes)
+  elif msg_lower == "help":
+    bot_reply = "คำสั่งที่ใช้ได้: 'เป็นใคร', 'เวลา', 'สุ่ม', 'help'"
+  else:
+    bot_reply = f"BENTEN AI : ขออภัย ผมยังไม่เข้าใจคำว่า '{prompt}'"
 
-def print_help():
-    line()
-    print("คำสั่งที่สามารถใช้ได้:")
-    print("  - สวัสดี")
-    print("  - ชื่ออะไร")
-    print("  - เป็นใคร")
-    print("  - เวลา")
-    print("  - สุ่ม")
-    print("  - exit (เพื่อออกจากโปรแกรม)")
-    line()
+  with st.chat_message("assistant"):
+    st.markdown(bot_reply)
+  st.session_state.messages.append(
+      {"role": "assistant", "content": bot_reply}
+  )
 
-def ai(msg):
-    msg_clean = msg.strip()
-    
-    if msg_clean == "สวัสดี":
-        print("BENTEN AI : สวัสดีครับ ยินดีต้อนรับ")
-    elif msg_clean == "ชื่ออะไร":
-        print("BENTEN AI : ผมชื่อ BENTEN AI v3.0")
-    elif msg_clean == "เป็นใคร":
-        print("BENTEN AI : ผมคือ AI ที่เขียนด้วยภาษา Python 🐍")
-    elif msg_clean == "เวลา":
-        current_time = time.strftime("%H:%M:%S (%d/%m/%Y)")
-        print(f"BENTEN AI : เวลาปัจจุบันคือ {current_time}")
-    elif msg_clean == "สุ่ม":
-        print(f"BENTEN AI : {get_random_quote()}")
-    elif msg_clean.lower() == "help":
-        print_help()
-    else:
-        print(f'BENTEN AI : ขออภัย ผมยังไม่เข้าใจ "{msg}"')
-
-def main():
-    line()
-    print("        BENTEN AI v3.0 (Python Version)")
-    line()
-    print("พิมพ์ 'help' เพื่อดูคำสั่งทั้งหมด")
-    print("พิมพ์ 'exit' เพื่อออกจากโปรแกรม\n")
-
-    while True:
-        try:
-            user_input = input("คุณ : ")
-        except EOFError:
-            break
-
-        if not user_input.strip():
-            continue
-
-        if user_input.strip().lower() == "exit":
-            print("BENTEN AI : ลาก่อนครับ")
-            break
-
-        ai(user_input)
-        print()
-
-if __name__ == "__main__":
-    main()
