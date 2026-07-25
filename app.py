@@ -2,9 +2,9 @@ import datetime
 import random
 import streamlit as st
 
-# ตั้งค่าหน้าเว็บ BENTEN AI V6.1 Pro (Fixed Sidebar Text)
+# ตั้งค่าหน้าเว็บ BENTEN AI V6.2 Pro (Fixed Syntax Edition)
 st.set_page_config(
-    page_title="BENTEN AI V6.1 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V6.2 Pro", page_icon="⚡", layout="centered"
 )
 
 # จัดการสถานะการตั้งค่า (State Management) ให้ใช้งานได้จริงทุกปุ่ม
@@ -20,7 +20,7 @@ if "auto_clear" not in st.session_state:
 # แถบเมนูด้านข้าง (Sidebar) สำหรับตั้งค่าที่ใช้งานได้จริง
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.1</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.2</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -119,7 +119,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V6.1 Pro Edition")
+  st.caption("🚀 BENTEN AI V6.2 Pro Edition")
 
 # CSS บังคับสีข้อความใน Sidebar ทั้งหมดให้เป็นสีขาวชัดเจน และปรับแต่งธีม
 st.markdown(
@@ -171,7 +171,6 @@ st.markdown(
         color: white !important;
     }}
 
-    /* บังคับ Sidebar และทุกป้ายข้อความ ตัวเลือก Selectbox ช่องติ๊กถูก ให้เป็นสีขาวชัดเจน */
     [data-testid="stSidebar"] {{
         background-color: #1e293b;
         border-right: 1px solid #334155;
@@ -186,7 +185,6 @@ st.markdown(
         color: #ffffff !important;
     }}
     
-    /* ปรับแต่งตัวอักษรที่แสดงผลข้างใน Selectbox ให้มองเห็นชัดเจน */
     div[data-baseweb="select"] > div {{
         background-color: #334155 !important;
         color: #ffffff !important;
@@ -196,11 +194,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.1 Pro
+# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.2 Pro
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V6.1 Pro</h1>
+        <h1>⚡ BENTEN AI V6.2 Pro</h1>
         <p>ระบบตั้งค่าอัจฉริยะ ปรับแต่งหน้าตาและมองเห็นเมนูฟังก์ชันได้อย่างชัดเจน!</p>
     </div>
 """,
@@ -233,7 +231,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.1..."):
+    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.2..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -242,30 +240,10 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       # ----------------------------------------------------------------
       if "สายกวน" in bot_mode:
         gwan_replies = [
-            (
-                f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง"
-                " 😜<br><br><img"
-                ' src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป"
-                " เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!<br><br><img"
-                ' src="https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ"
-                f" สำหรับเรื่อง '{prompt}' เนี่ย<br><br><img"
-                ' src="https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก"
-                " 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ<br><br><img"
-                ' src="https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif"'
-                ' width="130">'
-            ),
+            f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง 😜<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>",
+            f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!<br><br><img src='https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif' width='130'>",
+            f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ สำหรับเรื่อง '{prompt}' เนี่ย<br><br><img src='https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif' width='130'>",
+            f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ<br><br><img src='https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif' width='130'>",
         ]
         bot_reply = random.choice(gwan_replies)
 
@@ -273,25 +251,17 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       # 2. โหมดนักให้คำปรึกษา
       # ----------------------------------------------------------------
       elif "นักให้คำปรึกษา" in bot_mode:
-        bot_reply = (
-            f"🧘‍♂️ จากเรื่อง *\"{prompt}\"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ"
-            " อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ"
-            " ❤️<br><br><img"
-            ' src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"'
-            ' width="130">'
-        )
+        bot_reply = f'🧘‍♂️ จากเรื่อง *"{prompt}"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
 
       # ----------------------------------------------------------------
       # 3. โหมดผู้ช่วยทั่วไป (เพื่อนหรือครอบครัว)
       # ----------------------------------------------------------------
       else:
-        if any(
-            word in text for word in ["สวัสดี", "หวัดดี", "hi", "hello", "ดีจ้า"]
-        ):
-          bot_reply = (
-              "🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม"
-              " หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️<br><br><img"
-              ' src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif"'
-              ' width="130">'
-          )
-        elif any(w
+        if any(w in text for w in ["สวัสดี", "หวัดดี", "hi", "hello", "ดีจ้า"]):
+          bot_reply = '🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif" width="130">'
+        elif any(w in text for w in ["เวลา", "กี่โมง", "วันที่"]):
+          bot_reply = f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ<br><br><img src='https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif' width='130'>"
+        elif any(w in text for w in ["กินอะไรดี", "หิว", "เมนู"]):
+          bot_reply = '🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ<br><br><img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" width="130">'
+        elif any(w in text for w in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]):
+          bot_reply = '🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ ไม่ต้องฝืนตัวเองเกินไป มีผมค
