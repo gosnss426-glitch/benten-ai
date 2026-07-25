@@ -1,10 +1,10 @@
 import datetime
 import random
-import google.generativeai as genai
+from groq import Groq
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V9.7 Auto-Model Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI Groq Pro", page_icon="⚡", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,28 +18,28 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V9.7</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ Groq AI</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: สมองกลอัจฉริยะ 🟢</p>',
+      '<p style="color: #f97316 !important;">สถานะ: ความเร็วสูงพิเศษ 🚀</p>',
       unsafe_allow_html=True,
   )
 
   st.markdown(
-      '<p style="color: #ffffff !important; font-size: 0.9rem;">🔑 Google Gemini API Key</p>',
+      '<p style="color: #ffffff !important; font-size: 0.9rem;">🔑 Groq API Key</p>',
       unsafe_allow_html=True,
   )
   api_key_input = st.text_input(
       "API Key",
       type="password",
-      placeholder="วาง API Key ที่นี่...",
+      placeholder="วาง Groq API Key ที่นี่...",
       label_visibility="collapsed",
   )
 
   if api_key_input:
     st.session_state.api_key = api_key_input
-    st.success("เชื่อมต่อสมองกลสำเร็จ!")
+    st.success("เชื่อมต่อ Groq สำเร็จ!")
   elif "api_key" not in st.session_state:
     st.session_state.api_key = ""
 
@@ -51,15 +51,15 @@ with st.sidebar:
       f"""
     <div style="
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
-        border: 2px solid #38bdf8;
+        border: 2px solid #f97316;
         border-radius: 14px;
         padding: 12px;
         text-align: center;
-        box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
         margin-bottom: 15px;
     ">
         <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin-bottom: 2px;">⏰ เวลาปัจจุบัน (Live)</div>
-        <div style="font-size: 1.5rem; color: #38bdf8; font-weight: 800; letter-spacing: 1px;">{current_time_str}</div>
+        <div style="font-size: 1.5rem; color: #f97316; font-weight: 800; letter-spacing: 1px;">{current_time_str}</div>
         <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px;">📅 {current_date_str}</div>
     </div>
     """,
@@ -127,7 +127,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V9.7 Auto-Model Pro")
+  st.caption("🚀 BENTEN AI Groq Edition")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -182,13 +182,13 @@ st.markdown(
         animation: runAnimation 6s infinite linear;
     }}
     .main-header {{
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
         padding: 25px;
         border-radius: 16px;
         color: white;
         text-align: center;
         margin-bottom: 25px;
-        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
     }}
     .main-header h1 {{ margin: 0; font-size: 2.2rem; font-weight: 800; color: white !important; }}
     .main-header p {{ margin: 8px 0 0 0; font-size: 1.05rem; color: white !important; }}
@@ -205,8 +205,8 @@ st.markdown(
         <div style="overflow: hidden; width: 100%; height: 50px; position: relative; margin-bottom: 5px;">
             <div class="running-icon">🦖</div>
         </div>
-        <h1>⚡ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
-        <p>ผู้ช่วยอัจฉริยะ ช่วยทำการบ้าน หาข้อมูล และคุยสนุกได้เหมือนคนจริง! ✨</p>
+        <h1>⚡ BENTEN AI (Groq High-Speed)</h1>
+        <p>ผู้ช่วยอัจฉริยะความเร็วสูง ไร้ปัญหาโควตาเต็มกวนใจ! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -224,7 +224,7 @@ if prompt := st.chat_input(
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("🤖 BENTEN กำลังใช้สมองกลวิเคราะห์คำตอบอย่างละเอียด..."):
+    with st.spinner("🚀 กำลังประมวลผลผ่าน Groq AI ด้วยความเร็วสูง..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
@@ -260,51 +260,29 @@ if prompt := st.chat_input(
 
       elif st.session_state.api_key:
         try:
-          genai.configure(api_key=st.session_state.api_key)
-
-          # ระบบสแกนหาโมเดลที่รองรับข้อความอัตโนมัติจาก Key ของคุณ
-          models = [
-              m.name
-              for m in genai.list_models()
-              if "generateContent" in m.supported_generation_methods
-          ]
-          target_model = None
-          for preferred in [
-              "gemini-1.5-flash",
-              "gemini-1.5-pro",
-              "gemini-2.0-flash",
-          ]:
-            matching = [m for m in models if preferred in m]
-            if matching:
-              target_model = matching[0]
-              break
-          if not target_model and models:
-            target_model = models[0]
-
-          if target_model:
-            model = genai.GenerativeModel(target_model)
-            system_prompt = (
-                "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด รอบรู้"
-                " ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล และแปลภาษาได้อย่างยอดเยี่ยม"
-                " พูดจาสุภาพ เป็นมิตร และให้คำตอบที่เป็นประโยชน์"
-            )
-            full_prompt = f"{system_prompt}\n\nผู้ใช้ถามว่า: {prompt}"
-            response = model.generate_content(full_prompt)
-            bot_reply = response.text
-          else:
-            bot_reply = "⚠️ ไม่พบโมเดล AI ที่รองรับบน API Key นี้"
+          client = Groq(api_key=st.session_state.api_key)
+          chat_completion = client.chat.completions.create(
+              model="llama-3.3-70b-versatile",  # โมเดลอัจฉริยะความเร็วสูง
+              messages=[
+                  {
+                      "role": "system",
+                      "content": (
+                          "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด"
+                          " รอบรู้ ตอบเป็นภาษาไทยอย่างสุภาพและเป็นประโยชน์"
+                      ),
+                  },
+                  {"role": "user", "content": prompt},
+              ],
+          )
+          bot_reply = chat_completion.choices[0].message.content
         except Exception as e:
-          error_str = str(e)
-          if "429" in error_str:
-            bot_reply = "⚠️ **โควตาการใช้งานเต็มชั่วคราว:** กรุณารอสัก 30-60 วินาทีแล้วลองส่งข้อความใหม่อีกครั้งครับ"
-          else:
-            bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อสมองกล AI: {e}"
+          bot_reply = f"⚠️ เกิดข้อผิดพลาดจาก Groq AI: {e}"
 
       else:
         if "โหมดสนุกสนาน" in bot_mode:
-          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: นำ Google Gemini API Key มาใส่ไว้ที่ช่องด้านซ้ายมือ เพื่อปลดล็อกพลังสมองกลเต็มรูปแบบ!)*"
+          bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: นำ Groq API Key มาใส่ไว้ที่ช่องด้านซ้ายมือเพื่อเริ่มใช้งาน!)*"
         else:
-          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดพลังสมองกล:** เพียงนำ **Google Gemini API Key** มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
+          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดใช้งาน:** นำ **Groq API Key** (จาก console.groq.com) มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
