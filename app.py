@@ -43,21 +43,19 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
 
-  # อัปเดตค่าลง Session State ทันทีเมื่อผู้ใช้เปลี่ยน
+  theme_list = [
+      "อนิเมะยามค่ำคืน (Night Anime)",
+      "ท้องฟ้าและหมู่ดาว (Starry Sky)",
+      "เมืองนีออนไซเบอร์ (Cyberpunk City)",
+      "ปาสเทลหวานๆ (Sweet Pastel)",
+  ]
+  current_theme_index = (
+      theme_list.index(st.session_state.theme)
+      if st.session_state.theme in theme_list
+      else 0
+  )
   st.session_state.theme = st.selectbox(
-      "เลือกธีมพื้นหลังการ์ตูน:",
-      [
-          "อนิเมะยามค่ำคืน (Night Anime)",
-          "ท้องฟ้าและหมู่ดาว (Starry Sky)",
-          "เมืองนีออนไซเบอร์ (Cyberpunk City)",
-          "ปาสเทลหวานๆ (Sweet Pastel)",
-      ],
-      index=[
-          "อนิเมะยามค่ำคืน (Night Anime)",
-          "ท้องฟ้าและหมู่ดาว (Starry Sky)",
-          "เมืองนีออนไซเบอร์ (Cyberpunk City)",
-          "ปาสเทลหวานๆ (Sweet Pastel)",
-      ].index(st.session_state.theme),
+      "เลือกธีมพื้นหลังการ์ตูน:", theme_list, index=current_theme_index
   )
 
   st.markdown("---")
@@ -66,20 +64,19 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
 
+  color_list = [
+      "สีขาวคลาสสิก (White)",
+      "สีดำเข้มคมชัด (Solid Black)",
+      "สีฟ้าสว่างนีออน (Neon Blue)",
+      "สีเหลืองทอง (Gold)",
+  ]
+  current_color_index = (
+      color_list.index(st.session_state.text_color)
+      if st.session_state.text_color in color_list
+      else 0
+  )
   st.session_state.text_color = st.selectbox(
-      "เลือกสีข้อความแชท:",
-      [
-          "สีขาวคลาสสิก (White)",
-          "สีดำเข้มคมชัด (Solid Black)",
-          "สีฟ้าสว่างนีออน (Neon Blue)",
-          "สีเหลืองทอง (Gold)",
-      ],
-      index=[
-          "สีขาวคลาสสิก (White)",
-          "สีดำเข้มคมชัด (Solid Black)",
-          "สีฟ้าสว่างนีออน (Neon Blue)",
-          "สีเหลืองทอง (Gold)",
-      ].index(st.session_state.text_color),
+      "เลือกสีข้อความแชท:", color_list, index=current_color_index
   )
 
   st.markdown("---")
@@ -232,30 +229,10 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       # ----------------------------------------------------------------
       if "สายกวน" in bot_mode:
         gwan_replies = [
-            (
-                f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง"
-                " 😜\n\n<img"
-                ' src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป"
-                " เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!\n\n<img"
-                ' src="https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ"
-                f" สำหรับเรื่อง '{prompt}' เนี่ย\n\n<img"
-                ' src="https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif"'
-                ' width="130">'
-            ),
-            (
-                f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก"
-                " 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ\n\n<img"
-                ' src="https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif"'
-                ' width="130">'
-            ),
+            f"😏 หูยยย ถามมาได้ว่า '{prompt}' นึกว่าฉลาด ที่แท้ก็ถามแบบนี้นี่เอง 😜<br><br><img src='https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif' width='130'>",
+            f"🙄 โอ้ยคุณพี่! เรื่อง '{prompt}' เนี่ย ถ้าผมตอบไป เดี๋ยวผมจะดูฉลาดเกินหน้าเกินตาคุณเอาซะเปล่าๆ แฮ่!<br><br><img src='https://media.giphy.com/media/9Jvj4u8w7nL2M/giphy.gif' width='130'>",
+            f"🤭 แหม... พิมพ์มาซะยาว แค่จะบอกว่า 'ไม่รู้' แบบมีสไตล์สินะครับ สำหรับเรื่อง '{prompt}' เนี่ย<br><br><img src='https://media.giphy.com/media/13CoXHa88I7v5W/giphy.gif' width='130'>",
+            f"🤔 อืมมม... คำถามระดับจักรวาลแบบ '{prompt}' นี่ยังต้องคิดอีก 3 ชาติครึ่งครับถึงจะตอบได้ ฮ่าๆๆ<br><br><img src='https://media.giphy.com/media/hvRJCLFzcasvR4ia7z/giphy.gif' width='130'>",
         ]
         bot_reply = random.choice(gwan_replies)
 
@@ -263,13 +240,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
       # 2. โหมดนักให้คำปรึกษา
       # ----------------------------------------------------------------
       elif "นักให้คำปรึกษา" in bot_mode:
-        bot_reply = (
-            f"🧘‍♂️ จากเรื่อง *\"{prompt}\"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ"
-            " อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ"
-            " ❤️\n\n<img"
-            ' src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"'
-            ' width="130">'
-        )
+        bot_reply = f'🧘‍♂️ จากเรื่อง *"{prompt}"* ที่คุณเล่ามา ผมเข้าใจความรู้สึกเลยนะครับ อยากให้ลองใจเย็นๆ ค่อยๆ คิดทีละสเตปนะครับ มีอะไรผมพร้อมรับฟังและซัพพอร์ตเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="130">'
 
       # ----------------------------------------------------------------
       # 3. โหมดผู้ช่วยทั่วไป (เพื่อนหรือครอบครัว)
@@ -278,14 +249,17 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         if any(
             word in text for word in ["สวัสดี", "หวัดดี", "hi", "hello", "ดีจ้า"]
         ):
-          bot_reply = (
-              "🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม"
-              " หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️\n\n<img"
-              ' src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif"'
-              ' width="130">'
-          )
+          bot_reply = '🤗 สวัสดีครับคนดี! วันนี้เป็นยังไงบ้าง มีเรื่องอะไรเล่าให้ฟังไหม หรืออยากให้ผมช่วยอะไรบอกได้เลยนะ เป็นห่วงเสมอครับ ❤️<br><br><img src="https://media.giphy.com/media/xT1XGv8L1E763Bv584/giphy.gif" width="130">'
         elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
-              f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ\n\n<img"
+              f"📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')}"
+              " ครับ พักผ่อนดูแลตัวเองด้วยนะครับ<br><br><img"
               ' src="https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif"'
-              ' width
+              ' width="130">'
+          )
+        elif any(word in text for word in ["กินอะไรดี", "หิว", "เมนู"]):
+          bot_reply = '🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ<br><br><img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" width="130">'
+        elif any(
+            word in text for word in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]
+        ):
+          bot_reply = '🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ ไม่ต้องฝืนตัวเองเกินไป มีผมคอยอยู่ข้างๆ เป็นกำลังใจให้อยู่ตรงนี้นะครับ!<br><br><img src="https://media.giphy.com/media/3oEdv4hwWTzBhWvaU
