@@ -1,10 +1,10 @@
-  import datetime
+import datetime
 import random
 import streamlit as st
 
-# ตั้งค่าหน้าเว็บ BENTEN AI V6.3 Pro (Safe String Edition)
+# ตั้งค่าหน้าเว็บ BENTEN AI V6.4 Pro (Clean Edition)
 st.set_page_config(
-    page_title="BENTEN AI V6.3 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V6.4 Pro", page_icon="⚡", layout="centered"
 )
 
 # จัดการสถานะการตั้งค่า (State Management) ให้ใช้งานได้จริงทุกปุ่ม
@@ -20,7 +20,7 @@ if "auto_clear" not in st.session_state:
 # แถบเมนูด้านข้าง (Sidebar) สำหรับตั้งค่าที่ใช้งานได้จริง
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.3</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V6.4</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -119,7 +119,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V6.3 Pro Edition")
+  st.caption("🚀 BENTEN AI V6.4 Pro Edition")
 
 # CSS บังคับสีข้อความใน Sidebar ทั้งหมดให้เป็นสีขาวชัดเจน และปรับแต่งธีม
 st.markdown(
@@ -194,11 +194,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.3 Pro
+# หัวข้อหลักตรงกลางหน้าจอ แสดงชื่อ BENTEN AI V6.4 Pro
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V6.3 Pro</h1>
+        <h1>⚡ BENTEN AI V6.4 Pro</h1>
         <p>ระบบตั้งค่าอัจฉริยะ ปรับแต่งหน้าตาและมองเห็นเมนูฟังก์ชันได้อย่างชัดเจน!</p>
     </div>
 """,
@@ -231,7 +231,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.3..."):
+    with st.spinner("กำลังประมวลผลคำตอบเวอร์ชัน V6.4..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -262,6 +262,6 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         elif any(w in text for w in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = f"""📅 ตอนนี้เวลาประมาณ {now.strftime('%H:%M น.')} ครับ พักผ่อนดูแลตัวเองด้วยนะครับ<br><br><img src='https://media.giphy.com/media/l0HlRnAWXxn0MhOBK/giphy.gif' width='130'>"""
         elif any(w in text for w in ["กินอะไรดี", "หิว", "เมนู"]):
-          bot_reply = """🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ<br><br><img src='https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif' width='130'>"""
+          bot_reply = """🍲 หิวแล้วหรอครับเนี่ย ลองหาอะไรอร่อยๆ ทานรองท้องดูนะ เป็นห่วงสุขภาพ อย่าปล่อยให้ท้องว่างนานนะคร้าบ<br><br><img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" width="130">"""
         elif any(w in text for w in ["เหนื่อย", "เครียด", "ท้อ", "ร้องไห้"]):
-          bot_reply = """🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ ไม่ต้องฝื
+          bot_reply = """🫂 โอ๋ๆ นะครับ... ถ้าวันนี้มันเหนื่อยมาก พักผ่อนก่อนก็ได้นะ ไม่ต้องฝืนตัวเองเ
