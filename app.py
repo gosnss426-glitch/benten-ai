@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.0 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V8.1 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,7 +23,7 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.0</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.1</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
@@ -145,7 +145,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.0 Pro Edition")
+  st.caption("🚀 BENTEN AI V8.1 Pro Edition")
 
 st.markdown(
     f"""
@@ -220,7 +220,7 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V8.0 Pro</h1>
+        <h1>⚡ BENTEN AI V8.1 Pro</h1>
         <p>ระบบเสถียร สมบูรณ์แบบ 100%!</p>
     </div>
 """,
@@ -246,7 +246,7 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลเวอร์ชัน V8.0..."):
+    with st.spinner("กำลังประมวลผลเวอร์ชัน V8.1..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -307,4 +307,63 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
         else:
           is_hungry = (
               "หิว" in text
-   
+              or "กินอะไรดี" in text
+              or "เมนู" in text
+              or "อาหาร" in text
+              or "ข้าว" in text
+              or "มื้อเที่ยง" in text
+              or "มื้อเย็น" in text
+          )
+          is_hello = (
+              "สวัสดี" in text
+              or "หวัดดี" in text
+              or "hi" in text
+              or "hello" in text
+              or "ดีจ้า" in text
+          )
+          is_time = "เวลา" in text or "กี่โมง" in text or "วันที่" in text
+          is_tired = (
+              "เหนื่อย" in text
+              or "เครียด" in text
+              or "ท้อ" in text
+              or "ร้องไห้" in text
+          )
+
+          if is_hungry:
+            food_suggestions = [
+                "🍲 **ชาบู / หมูกระทะ:** เยียวยาได้ทุกสิ่ง ฟินสุดๆ!",
+                "🍛 **ข้าวผัดกุ้ง:** เมนูจานเดียวทำง่าย หอมอร่อย!",
+                "🍜 **ก๋วยเตี๋ยวต้มยำ:** ซดน้ำร้อนๆ คล่องคอ!",
+                "🥗 **สลัดอกไก่:** สายสุขภาพ เบาท้อง ไม่อ้วน!",
+                "🍗 **ส้มตำ ไก่ย่าง:** แซ่บนัวถึงใจ!",
+            ]
+            chosen_food = random.choice(food_suggestions)
+            bot_reply = (
+                "😋 วันนี้แนะนำเมนูนี้เลย:<br><br>"
+                + chosen_food
+                + "<br><br>อยากให้หาพิกัดหรือสูตรเพิ่มบอกได้นะ! 🍳✨"
+            )
+          elif is_hello:
+            name_greet = (
+                f" คุณ{st.session_state.user_name}"
+                if st.session_state.user_name
+                else ""
+            )
+            bot_reply = f"🤗 สวัสดีครับ{name_greet}! วันนี้มีอะไรให้ผมช่วยบอกได้เลยนะ ❤️"
+          elif is_time:
+            bot_reply = (
+                "📅 เวลาประมาณ "
+                + now.strftime("%H:%M น.")
+                + " ได้เวลาหาอะไรอร่อยๆ ทานยังเอ่ย?"
+            )
+          elif is_tired:
+            bot_reply = (
+                "🫂 เหนื่อยมากพักผ่อนนะ หาของหวานอร่อยๆ ทานเติมพลังใจ"
+                " มีผมคอยอยู่ข้างๆ!"
+            )
+          else:
+            bot_reply = f'😊 ได้รับเรื่อง *"{prompt}"* แล้วครับ มีอะไรอยากให้ช่วยเพิ่มบอกได้เลยนะ!'
+
+    st.markdown(bot_reply, unsafe_allow_html=True)
+
+  st.session_state.messages.append({"role": "assistant", "content": bot_reply})
