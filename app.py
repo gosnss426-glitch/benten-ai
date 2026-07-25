@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V7.6 Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI V7.7 Pro", page_icon="⚡", layout="centered"
 )
 
 if "theme" not in st.session_state:
@@ -23,11 +23,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.6</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V7.7</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: สมบูรณ์ไร้ที่ติ 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: แก้ไขบั๊กสมบูรณ์ 🟢</p>',
       unsafe_allow_html=True,
   )
 
@@ -54,7 +54,10 @@ with st.sidebar:
       if st.session_state.user_fav_food
       else "ยังไม่ระบุ"
   )
-  st.info(f"👤 ชื่อคุณ: {uname}\n🍽️ ของโปรด: {ufav}")
+  st.markdown(
+      f"<p style='color: #ffffff;'>👤 ชื่อคุณ: {uname}<br>🍽️ ของโปรด: {ufav}</p>",
+      unsafe_allow_html=True,
+  )
 
   if st.button("🔄 รีเซ็ตความจำผู้ใช้", use_container_width=True):
     st.session_state.user_name = ""
@@ -142,7 +145,7 @@ with st.sidebar:
     st.success("ล้างประวัติสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V7.6 Pro Edition")
+  st.caption("🚀 BENTEN AI V7.7 Pro Edition")
 
 st.markdown(
     f"""
@@ -217,8 +220,8 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI V7.6 Pro</h1>
-        <p>ระบบความจำผู้ใช้และพยากรณ์อากาศพร้อมใช้งาน 100%!</p>
+        <h1>⚡ BENTEN AI V7.7 Pro</h1>
+        <p>ระบบเสถียร พร้อมใช้งานคุยและตอบกลับปกติ 100%!</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -243,7 +246,7 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
     st.toast("🔔 ส่งข้อความสำเร็จ! ระบบกำลังประมวลผล...", icon="⚡")
 
   with st.chat_message("assistant"):
-    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.6..."):
+    with st.spinner("กำลังประมวลผลเวอร์ชัน V7.7..."):
       text = prompt.lower()
       now = datetime.datetime.now()
 
@@ -299,7 +302,4 @@ if prompt := st.chat_input("พิมพ์คุย หรือบอกชื
                   "อาหาร",
                   "ข้าว",
                   "มื้อเที่ยง",
-                  "มื้อเย็น",
-              ]
-          ):
-            food_suggestions
+           
