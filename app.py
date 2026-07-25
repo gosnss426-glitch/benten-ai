@@ -4,7 +4,7 @@ from groq import Groq
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI เพื่อนแท้ทุกเพศทุกวัย", page_icon="🦖", layout="centered"
+    page_title="BENTEN AI Ultimate", page_icon="🦖", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -15,6 +15,8 @@ if "user_name" not in st.session_state:
   st.session_state.user_name = ""
 if "user_fav_food" not in st.session_state:
   st.session_state.user_fav_food = ""
+if "user_mood" not in st.session_state:
+  st.session_state.user_mood = "ปกติ / สบายๆ 🌟"
 
 with st.sidebar:
   st.markdown(
@@ -22,7 +24,7 @@ with st.sidebar:
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #f97316 !important;">สถานะ: สมองกลอัจฉริยะ 🚀</p>',
+      '<p style="color: #f97316 !important;">สถานะ: สมองกลอัจฉริยะขั้นสุด 🚀</p>',
       unsafe_allow_html=True,
   )
 
@@ -69,17 +71,16 @@ with st.sidebar:
   bot_mode = st.selectbox(
       "🎯 เลือกสไตล์การพูดคุย",
       [
-          (
-              "🧠 โหมดอัจฉริยะ (ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูลเรียลไทม์)"
-          ),
+          "🧠 โหมดอัจฉริยะ (วิเคราะห์งาน ค้นหาข้อมูลเชิงลึก)",
           "🎈 โหมดสนุกสนาน (คุยเล่น มุกตลก คลายเครียด)",
           "🌍 โหมดผู้เชี่ยวชาญภาษาและการแปล",
+          "💡 โหมดโค้ดดิ้งและแก้ปัญหาเฉพาะหน้า",
       ],
   )
 
   st.markdown("---")
   st.markdown(
-      '<p style="color: #ffffff !important;">🧠 ความจำอัจฉริยะ</p>',
+      '<p style="color: #ffffff !important;">🧠 ความจำและอารมณ์อัจฉริยะ</p>',
       unsafe_allow_html=True,
   )
 
@@ -91,14 +92,16 @@ with st.sidebar:
       if st.session_state.user_fav_food
       else "ยังไม่ระบุ"
   )
+  umood = st.session_state.user_mood
   st.markdown(
-      f"<p style='color: #ffffff;'>👤 ชื่อคุณ: {uname}<br>🍕 สิ่งที่ชอบ: {ufav}</p>",
+      f"<p style='color: #ffffff; font-size: 0.9rem;'>👤 ชื่อคุณ: {uname}<br>🍕 สิ่งที่ชอบ: {ufav}<br>🎭 อารมณ์ล่าสุด: {umood}</p>",
       unsafe_allow_html=True,
   )
 
-  if st.button("🔄 รีเซ็ตความจำ", use_container_width=True):
+  if st.button("🔄 รีเซ็ตความจำและอารมณ์", use_container_width=True):
     st.session_state.user_name = ""
     st.session_state.user_fav_food = ""
+    st.session_state.user_mood = "ปกติ / สบายๆ 🌟"
     st.success("รีเซ็ตความจำสำเร็จ!")
     st.rerun()
 
@@ -129,7 +132,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🦖 BENTEN AI เพื่อนแท้ทุกเพศทุกวัย")
+  st.caption("🦖 BENTEN AI Ultimate Edition")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -208,7 +211,7 @@ st.markdown(
             <div class="running-icon">🦖</div>
         </div>
         <h1>🦖 BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
-        <p>ผู้ช่วยอัจฉริยะ ช่วยทำการบ้าน หาข้อมูล และคุยสนุกได้เหมือนคนจริง! ✨</p>
+        <p>ผู้ช่วยอัจฉริยะระบบความจำล้ำหน้า ค้นหาข้อมูลและรู้ใจคุณที่สุด! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -219,19 +222,25 @@ for message in st.session_state.messages:
     st.markdown(message["content"], unsafe_allow_html=True)
 
 if prompt := st.chat_input(
-    "พิมพ์ถามการบ้าน, ให้ช่วยหาข้อมูล, สั่งแปลภาษา หรือคุยเล่นได้เลย..."
+    "พิมพ์ถามการบ้าน, คุยเล่น, หรือระบายความรู้สึกได้เลย..."
 ):
   st.session_state.messages.append({"role": "user", "content": prompt})
   with st.chat_message("user"):
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner(
-        "🦖 BENTEN AI กำลังค้นหาข้อมูลและประมวลผลให้อย่างรวดเร็ว..."
-    ):
+    with st.spinner("🦖 BENTEN AI กำลังวิเคราะห์ข้อมูลและอารมณ์ของคุณ..."):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
+
+      # ตรวจจับอารมณ์ผู้ใช้
+      if any(
+          w in text for w in ["เครียด", "เหนื่อย", "เศร้า", "ท้อ", "แย่จัง"]
+      ):
+        st.session_state.user_mood = "กำลังเครียด/ต้องการกำลังใจ 🌧️"
+      elif any(w in text for w in ["มีความสุข", "ดีใจ", "สนุก", "เยี่ยม"]):
+        st.session_state.user_mood = "มีความสุข/อารมณ์ดี ☀️"
 
       if (
           ("ฉันชื่อ" in text)
@@ -249,7 +258,7 @@ if prompt := st.chat_input(
         if not st.session_state.user_name and len(words) > 0:
           st.session_state.user_name = words[-1]
         name_str = st.session_state.user_name
-        bot_reply = f"🎉 **บันทึกความจำสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมจำชื่อของคุณไว้ที่แถบด้านซ้ายเรียบร้อยแล้วนะ! 😊"
+        bot_reply = f"🎉 **บันทึกความจำสำเร็จ!** ยินดีที่ได้รู้จักครับคุณ **{name_str}** ผมบันทึกชื่อของคุณไว้ในระบบสมองกลเรียบร้อยแล้วครับ! 😊"
         memory_updated = True
 
       elif (
@@ -259,23 +268,23 @@ if prompt := st.chat_input(
           | ("รัก" in text)
       ):
         st.session_state.user_fav_food = prompt
-        bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงสมองกลด้านซ้ายเรียบร้อยจ้า! 🎈"
+        bot_reply = f"🌟 **บันทึกรายการโปรดสำเร็จ!** เยี่ยมเลยครับ ผมจำไว้แล้วว่าคุณชอบ *\"{prompt}\"* บันทึกลงระบบเรียบร้อยจ้า! 🎈"
         memory_updated = True
 
       elif st.session_state.api_key:
         try:
           client = Groq(api_key=st.session_state.api_key)
+          system_content = (
+              f"คุณคือ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย"
+              f" ผู้ช่วยอัจฉริยะที่รู้ใจผู้ใช้ ข้อมูลผู้ใช้ปัจจุบัน: ชื่อ {uname}, สิ่งที่ชอบ:"
+              f" {ufav}, อารมณ์ล่าสุด: {st.session_state.user_mood}."
+              " จงปรับน้ำเสียงให้เข้ากับอารมณ์ผู้ใช้ ตอบเป็นภาษาไทยอย่างเป็นกันเอง"
+              " อบอุ่น และฉลาดล้ำ"
+          )
           chat_completion = client.chat.completions.create(
               model="llama-3.3-70b-versatile",
               messages=[
-                  {
-                      "role": "system",
-                      "content": (
-                          "คุณคือ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย"
-                          " เป็นผู้ช่วยอัจฉริยะที่รอบรู้ ค้นหาข้อมูลและตอบคำถามเชิงลึกได้อย่างแม่นยำ"
-                          " ทันเหตุการณ์ปัจจุบัน ตอบเป็นภาษาไทยอย่างเป็นกันเองและสุภาพ"
-                      ),
-                  },
+                  {"role": "system", "content": system_content},
                   {"role": "user", "content": prompt},
               ],
           )
@@ -287,11 +296,11 @@ if prompt := st.chat_input(
         if "โหมดสนุกสนาน" in bot_mode:
           bot_reply = "😂 **มุกตลกคลายเครียด:**<br>กุ้งอะไรเอ่ยเดิน 2 ขา? ...ตอบ: **กุ้งเต้น** ที่กำลังใส่รองเท้าผ้าใบอยู่ไงล่ะ 555!<br><br>*(💡 เคล็ดลับ: นำ Groq API Key มาใส่ไว้ที่ช่องด้านซ้ายมือเพื่อเริ่มใช้งาน!)*"
         else:
-          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยคุณทำงาน ค้นหาข้อมูล และทำการบ้านแล้วครับ<br><br>👉 **วิธีเปิดใช้งาน:** นำ **Groq API Key** (จาก console.groq.com) มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
+          bot_reply = f"👋 สวัสดีครับคุณ **{uname if uname else 'เพื่อนใหม่'}**! ผม **BENTEN AI** พร้อมช่วยเหลือคุณในทุกๆ ด้านแล้วครับ<br><br>👉 **วิธีเปิดใช้งาน:** นำ **Groq API Key** (จาก console.groq.com) มาใส่ไว้ที่ช่องด้านซ้ายมือครับ!"
 
     st.markdown(bot_reply, unsafe_allow_html=True)
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
 
   if memory_updated:
-    st.success("🌟 บันทึกความจำและอัปเดตหน้าจอ Sidebar เรียบร้อยแล้ว!")
+    st.success("🌟 อัปเดตความจำและสถานะทางอารมณ์ใน Sidebar เรียบร้อยแล้ว!")
     st.rerun()
