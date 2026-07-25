@@ -4,7 +4,7 @@ import streamlit as st
 
 # ตั้งค่าหน้าเว็บ
 st.set_page_config(
-    page_title="BENTEN AI - Pro Edition", page_icon="💎", layout="centered"
+    page_title="BENTEN AI -V5", page_icon="💎", layout="centered"
 )
 
 # ตกแต่ง CSS หน้าต่างให้สวยงามและพรีเมียม
