@@ -3,7 +3,7 @@ import random
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI V8.5 Universal Family",
+    page_title="BENTEN AI V8.6 Clock Edition",
     page_icon="⚡",
     layout="centered",
 )
@@ -25,11 +25,33 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.5</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ V8.6</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #38bdf8 !important;">สถานะ: โหมดครอบครัวทุกวัย 🟢</p>',
+      '<p style="color: #38bdf8 !important;">สถานะ: พร้อมใช้งาน 🟢</p>',
+      unsafe_allow_html=True,
+  )
+
+  # --- เพิ่มนาฬิกาดิจิทัลดีไซน์สวยๆ ตรงนี้ ---
+  current_time_str = datetime.datetime.now().strftime("%H:%M:%S")
+  current_date_str = datetime.datetime.now().strftime("%d / %m / %Y")
+  st.markdown(
+      f"""
+    <div style="
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
+        border: 2px solid #38bdf8;
+        border-radius: 14px;
+        padding: 12px;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        margin-bottom: 15px;
+    ">
+        <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin-bottom: 2px;">⏰ เวลาปัจจุบัน (Live)</div>
+        <div style="font-size: 1.5rem; color: #38bdf8; font-weight: 800; letter-spacing: 1px;">{current_time_str}</div>
+        <div style="font-size: 0.8rem; color: #e2e8f0; margin-top: 4px;">📅 {current_date_str}</div>
+    </div>
+    """,
       unsafe_allow_html=True,
   )
 
@@ -94,7 +116,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI V8.5 Family Edition")
+  st.caption("🚀 BENTEN AI V8.6 Clock Edition")
 
 st.markdown(
     f"""
@@ -160,7 +182,7 @@ st.markdown(
 st.markdown(
     """
     <div class="main-header">
-        <h1>⚡ BENTEN AI  เพื่อนแท้ทุกเพศทุกวัย</h1>
+        <h1>⚡ BENTEN AI V8.6 เพื่อนแท้ทุกเพศทุกวัย</h1>
         <p>พิมพ์คุยสนุกได้ทุกเรื่อง ความรู้ มุกตลก เกม หรือบอกชื่อ/สิ่งที่ชอบได้เลย! ✨</p>
     </div>
 """,
@@ -234,7 +256,6 @@ if prompt := st.chat_input(
           bot_reply = random.choice(knowledge_pack)
 
         else:
-          # โหมดเพื่อนคู่คิด มิตรทุกวัย (ผสมผสานความอบอุ่นและความรู้)
           general_pack = [
               "🤝 **สวัสดีครับ!** ไม่ว่าคุณจะแวะมาคุยเรื่องเรียน เรื่องงาน หรือหาเพื่อนคุยแก้เหงา ผมพร้อมรับฟังและช่วยเหลือเต็มที่เลยนะ!",
               "☕ **พักผ่อนสักนิด:** ทำงานหรือเรียนมาเหนื่อยๆ อย่าลืมหาเครื่องดื่มอุ่นๆ หรือของอร่อยทานเติมพลังนะ มีผมคอยซัพพอร์ตอยู่ตรงนี้เสมอ!",
