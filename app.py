@@ -4,7 +4,7 @@ from groq import Groq
 import streamlit as st
 
 st.set_page_config(
-    page_title="BENTEN AI Groq Pro", page_icon="⚡", layout="centered"
+    page_title="BENTEN AI เพื่อนแท้ทุกเพศทุกวัย", page_icon="🦖", layout="centered"
 )
 
 if "bg_color" not in st.session_state:
@@ -18,11 +18,11 @@ if "user_fav_food" not in st.session_state:
 
 with st.sidebar:
   st.markdown(
-      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ Groq AI</h2>',
+      '<h2 style="color: #ffffff !important;">⚙️ ตั้งค่าระบบ BENTEN AI</h2>',
       unsafe_allow_html=True,
   )
   st.markdown(
-      '<p style="color: #f97316 !important;">สถานะ: ความเร็วสูงพิเศษ 🚀</p>',
+      '<p style="color: #f97316 !important;">สถานะ: สมองกลอัจฉริยะ 🚀</p>',
       unsafe_allow_html=True,
   )
 
@@ -39,7 +39,7 @@ with st.sidebar:
 
   if api_key_input:
     st.session_state.api_key = api_key_input
-    st.success("เชื่อมต่อ Groq สำเร็จ!")
+    st.success("เชื่อมต่อสมองกลสำเร็จ!")
   elif "api_key" not in st.session_state:
     st.session_state.api_key = ""
 
@@ -69,7 +69,9 @@ with st.sidebar:
   bot_mode = st.selectbox(
       "🎯 เลือกสไตล์การพูดคุย",
       [
-          "🧠 โหมดอัจฉริยะ (ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูล)",
+          (
+              "🧠 โหมดอัจฉริยะ (ช่วยทำการบ้าน วิเคราะห์งาน ค้นหาข้อมูลเรียลไทม์)"
+          ),
           "🎈 โหมดสนุกสนาน (คุยเล่น มุกตลก คลายเครียด)",
           "🌍 โหมดผู้เชี่ยวชาญภาษาและการแปล",
       ],
@@ -127,7 +129,7 @@ with st.sidebar:
     st.success("ล้างหน้าจอสำเร็จ!")
     st.rerun()
 
-  st.caption("🚀 BENTEN AI Groq Edition")
+  st.caption("🦖 BENTEN AI เพื่อนแท้ทุกเพศทุกวัย")
 
 if st.session_state.bg_color == "สีขาวคลาสสิก (Classic White)":
   bg_style = "background-color: #ffffff; color: #1e293b;"
@@ -205,8 +207,8 @@ st.markdown(
         <div style="overflow: hidden; width: 100%; height: 50px; position: relative; margin-bottom: 5px;">
             <div class="running-icon">🦖</div>
         </div>
-        <h1>⚡ BENTEN AI (Groq High-Speed)</h1>
-        <p>ผู้ช่วยอัจฉริยะความเร็วสูง ไร้ปัญหาโควตาเต็มกวนใจ! ✨</p>
+        <h1>🦖 BENTEN AI เพื่อนแท้ทุกเพศทุกวัย</h1>
+        <p>ผู้ช่วยอัจฉริยะ ช่วยทำการบ้าน หาข้อมูล และคุยสนุกได้เหมือนคนจริง! ✨</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -224,7 +226,9 @@ if prompt := st.chat_input(
     st.markdown(prompt)
 
   with st.chat_message("assistant"):
-    with st.spinner("🚀 กำลังประมวลผลผ่าน Groq AI ด้วยความเร็วสูง..."):
+    with st.spinner(
+        "🦖 BENTEN AI กำลังค้นหาข้อมูลและประมวลผลให้อย่างรวดเร็ว..."
+    ):
       text = prompt.lower()
       memory_updated = False
       bot_reply = ""
@@ -267,8 +271,9 @@ if prompt := st.chat_input(
                   {
                       "role": "system",
                       "content": (
-                          "คุณคือ BENTEN AI ผู้ช่วยอัจฉริยะที่เป็นกันเอง ฉลาด"
-                          " รอบรู้ ตอบเป็นภาษาไทยอย่างสุภาพและเป็นประโยชน์"
+                          "คุณคือ BENTEN AI เพื่อนแท้ทุกเพศทุกวัย"
+                          " เป็นผู้ช่วยอัจฉริยะที่รอบรู้ ค้นหาข้อมูลและตอบคำถามเชิงลึกได้อย่างแม่นยำ"
+                          " ทันเหตุการณ์ปัจจุบัน ตอบเป็นภาษาไทยอย่างเป็นกันเองและสุภาพ"
                       ),
                   },
                   {"role": "user", "content": prompt},
@@ -276,7 +281,7 @@ if prompt := st.chat_input(
           )
           bot_reply = chat_completion.choices[0].message.content
         except Exception as e:
-          bot_reply = f"⚠️ เกิดข้อผิดพลาดจาก Groq AI: {e}"
+          bot_reply = f"⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}"
 
       else:
         if "โหมดสนุกสนาน" in bot_mode:
