@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="BENTEN AI - Version 5.0", page_icon="🚀", layout="centered"
 )
 
-# แถบเมนูด้านข้าง (Sidebar) พร้อมเพิ่มตัวเลือกสีดำ
+# แถบเมนูด้านข้าง (Sidebar) พร้อมเมนูเปลี่ยนสีหน้าต่างและสีตัวหนังสือ
 with st.sidebar:
   st.title("⚙️ ควบคุมระบบ v5")
   st.write("สถานะ: **ออนไลน์ 🟢**")
@@ -18,22 +18,46 @@ with st.sidebar:
   )
 
   st.markdown("---")
-  st.subheader("🎨 ปรับแต่งสีตัวหนังสือ")
+  st.subheader("🎨 ปรับแต่งสีหน้าต่างและตัวหนังสือ")
 
-  # เพิ่มตัวเลือกสีดำในรายการ
-  text_color = st.selectbox(
-      "เลือกสีข้อความแชท:",
+  # ให้เลือกสีพื้นหลังหน้าต่างแอป
+  bg_theme = st.selectbox(
+      "เลือกสีพื้นหลังหน้าต่าง:",
       [
-          "สีดำเข้มคมชัด (Solid Black)",
-          "สีขาวคลาสสิก (White)",
-          "สีฟ้าสว่างนีออน (Neon Blue)",
-          "สีเขียวมิ้นท์ (Mint Green)",
-          "สีเหลืองทอง (Gold)",
-          "สีชมพูพาสเทล (Pink)",
+          "ดาร์กมืดเข้ม (Dark Navy)",
+          "สว่างสะอาด (Clean White)",
+          "เทาโมเดิร์น (Modern Gray)",
+          "ชมพูพาสเทลอ่อน (Soft Pink)",
       ],
   )
 
-  # แปลงค่าที่เลือกเป็นรหัสสี CSS
+  # ให้เลือกสีตัวหนังสือ
+  text_color = st.selectbox(
+      "เลือกสีข้อความแชท:",
+      [
+          "สีขาวคลาสสิก (White)",
+          "สีดำเข้มคมชัด (Solid Black)",
+          "สีฟ้าสว่างนีออน (Neon Blue)",
+          "สีเขียวมิ้นท์ (Mint Green)",
+          "สีเหลืองทอง (Gold)",
+      ],
+  )
+
+  # แปลงค่าพื้นหลังหน้าต่างเป็น CSS Hex
+  if "สว่างสะอาด" in bg_theme:
+    bg_hex = "#ffffff"
+    main_text_default = "#1e293b"
+  elif "เทาโมเดิร์น" in bg_theme:
+    bg_hex = "#f1f5f9"
+    main_text_default = "#0f172a"
+  elif "ชมพูพาสเทล" in bg_theme:
+    bg_hex = "#fdf2f8"
+    main_text_default = "#831843"
+  else:
+    bg_hex = "#0f172a"
+    main_text_default = "#f8fafc"
+
+  # แปลงค่าสีตัวหนังสือเป็น CSS Hex
   if "สีดำเข้ม" in text_color:
     selected_hex = "#000000"
   elif "ฟ้าสว่าง" in text_color:
@@ -42,10 +66,8 @@ with st.sidebar:
     selected_hex = "#34d399"
   elif "เหลืองทอง" in text_color:
     selected_hex = "#fbbf24"
-  elif "ชมพูพาสเทล" in text_color:
-    selected_hex = "#f472b6"
   else:
-    selected_hex = "#f8fafc"
+    selected_hex = main_text_default
 
   st.markdown("---")
   if st.button("🗑️ ล้างประวัติการสนทนา", use_container_width=True):
@@ -54,17 +76,17 @@ with st.sidebar:
 
   st.caption("🚀 BENTEN AI v5.0 Ultimate Edition")
 
-# นำรหัสสีที่เลือกไปใส่ใน CSS ของหน้าเว็บ
+# นำค่าสีพื้นหลังและสีตัวหนังสือไปใช้ใน CSS
 st.markdown(
     f"""
     <style>
     .stApp {{
-        background-color: #0f172a;
-        color: #f8fafc;
+        background-color: {bg_hex};
+        color: {main_text_default};
     }}
     
-    /* ควบคุมสีตัวหนังสือในกล่องแชทตามที่ผู้ใช้เลือกจาก Sidebar */
-    .stChatMessage p, .stChatMessage div {{
+    /* ควบคุมสีตัวหนังสือในกล่องแชท */
+    .stChatMessage p, .stChatMessage div, .stChatMessage span {{
         color: {selected_hex} !important;
     }}
     
@@ -96,6 +118,9 @@ st.markdown(
         background-color: #1e293b;
         border-right: 1px solid #334155;
     }}
+    [data-testid="stSidebar"] * {{
+        color: #f8fafc !important;
+    }}
     </style>
 """,
     unsafe_allow_html=True,
@@ -106,7 +131,7 @@ st.markdown(
     """
     <div class="main-header">
         <h1>🚀 BENTEN AI - v5.0</h1>
-        <p>ระบบผู้ช่วยอัจฉริยะ ปรับเปลี่ยนสีตัวหนังสือรวมถึงสีดำได้ตามใจชอบ</p>
+        <p>ระบบผู้ช่วยอัจฉริยะ ปรับแต่งสีหน้าต่างและสีตัวหนังสือได้ตามใจชอบ</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -140,7 +165,7 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
         if any(
             word in text for word in ["สวัสดี", "หวัดดี", "hi", "hello"]
         ):
-          bot_reply = "👋 สวัสดีครับคุณผู้ใช้! ยินดีต้อนรับสู่ **BENTEN AI v5** อยากใช้ตัวหนังสือสีดำหรือสีอื่นๆ เลือกได้ที่เมนูด้านซ้ายเลยครับ!"
+          bot_reply = "👋 สวัสดีครับ! หากมองไม่เห็นตัวหนังสือ สามารถไปเปลี่ยนสีพื้นหลังหน้าต่างหรือสีตัวหนังสือได้ที่เมนูด้านซ้ายเลยครับ!"
         elif any(word in text for word in ["เวลา", "กี่โมง", "วันที่"]):
           bot_reply = (
               f"📅 ขณะนี้เวลา {now.strftime('%H:%M น.')} วันที่"
@@ -151,8 +176,9 @@ if prompt := st.chat_input("พิมพ์ข้อความคุยกั�
               "🍜 มื้อนี้แนะนำข้าวมันไก่ หรือก๋วยเตี๋ยวรสเด็ดเลยครับ กำลังหิวพอดี!"
           )
         else:
-          bot_reply = f"✨ ได้รับข้อความเวอร์ชัน v5 แล้ว: *\"{prompt}\"* แจ๋วเลยครับ!"
+          bot_reply = f"✨ ได้รับข้อความเวอร์ชัน v5 แล้ว: *\"{prompt}\"* ปรับสีหน้าต่างอ่านง่ายสบายตาขึ้นไหมครับ!"
 
     st.markdown(bot_reply)
 
   st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+
